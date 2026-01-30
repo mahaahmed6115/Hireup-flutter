@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hireup/forget_password_screens/Forgetpass.dart';
 import 'package:hireup/firstjoptype.dart';
 import 'package:hireup/sign_in_screens/registerscreen.dart';
@@ -11,7 +12,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  bool _isObscure = true; // للتحكم في رؤية الباسورد
+  bool _isObscure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -20,188 +21,201 @@ class _LoginState extends State<Login> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            padding: EdgeInsets.symmetric(horizontal: 25.w),
             child: Column(
               children: [
-                // الصورة العلوية مع أنيميشن بسيط في الحجم
+                /// Image
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 30.0),
+                  padding: EdgeInsets.symmetric(vertical: 30.h),
                   child: Image.asset(
                     "assets/images/Login-bro.png",
-                    height: MediaQuery.of(context).size.height * 0.30,
+                    height: 0.30.sh,
                     fit: BoxFit.contain,
                   ),
                 ),
 
-                const Text(
+                Text(
                   "Welcome Back!",
                   style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 30.sp,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF1A1D3D),
-                    letterSpacing: 0.5,
+                    color: const Color(0xFF1A1D3D),
                   ),
                 ),
-                const SizedBox(height: 8),
-                const Text(
+
+                SizedBox(height: 8.h),
+
+                Text(
                   "Please login to your account",
-                  style: TextStyle(color: Colors.grey, fontSize: 16),
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16.sp,
+                  ),
                 ),
-                const SizedBox(height: 40),
 
-                Form(
-                  child: Column(
-                    children: [
-                      _buildTextField(
-                        hint: "Email Address",
-                        icon: Icons.email_outlined,
-                      ),
-                      const SizedBox(height: 20),
+                SizedBox(height: 40.h),
 
-                      _buildTextField(
-                        hint: "Password",
-                        icon: Icons.lock_outline,
-                        isPassword: true,
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _isObscure
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined,
-                            color: Colors.grey,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _isObscure = !_isObscure;
-                            });
-                          },
+                /// Form
+                Column(
+                  children: [
+                    _buildTextField(
+                      hint: "Email Address",
+                      icon: Icons.email_outlined,
+                    ),
+
+                    SizedBox(height: 20.h),
+
+                    _buildTextField(
+                      hint: "Password",
+                      icon: Icons.lock_outline,
+                      isPassword: true,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _isObscure
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                          color: Colors.grey,
+                          size: 22.sp,
                         ),
+                        onPressed: () {
+                          setState(() => _isObscure = !_isObscure);
+                        },
                       ),
+                    ),
 
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () => Navigator.push(
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const Forgetpass(),
-                            ),
-                          ),
-                          child: const Text(
-                            "Forgot Password?",
-                            style: TextStyle(
-                              color: Color(0xff43B343),
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 30),
-
-                      // زرار اللوج إن باللونين (Gradient)
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const firstjoptype(),
+                              builder: (_) => const Forgetpass(),
                             ),
                           );
                         },
-                        child: Container(
-                          width: double.infinity,
-                          height: 55,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [
-                                Color(0xff56C556),
-                                Color(0xff329232),
-                              ], // لونين أخضر
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.green.withOpacity(0.3),
-                                blurRadius: 10,
-                                offset: const Offset(0, 5),
-                              ),
+                        child: Text(
+                          "Forgot Password?",
+                          style: TextStyle(
+                            color: const Color(0xff43B343),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 30.h),
+
+                    /// Login Button
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) =>  FirstJobType(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 55.h,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0xff56C556),
+                              Color(0xff329232),
                             ],
                           ),
-                          child: const Center(
-                            child: Text(
-                              "Login",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          borderRadius: BorderRadius.circular(15.r),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.green.withOpacity(0.3),
+                              blurRadius: 10.r,
+                              offset: Offset(0, 5.h),
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                       ),
+                    ),
 
-                      const SizedBox(height: 35),
+                    SizedBox(height: 35.h),
 
-                      Row(
-                        children: const [
-                          Expanded(child: Divider(thickness: 1)),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              "Or Login with",
-                              style: TextStyle(color: Colors.grey),
+                    Row(
+                      children: [
+                        const Expanded(child: Divider()),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                          child: Text(
+                            "Or Login with",
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14.sp,
                             ),
                           ),
-                          Expanded(child: Divider(thickness: 1)),
-                        ],
-                      ),
+                        ),
+                        const Expanded(child: Divider()),
+                      ],
+                    ),
 
-                      const SizedBox(height: 25),
+                    SizedBox(height: 25.h),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _socialButton("assets/images/fb.png"),
-                          const SizedBox(width: 25),
-                          _socialButton("assets/images/xx.png"),
-                          const SizedBox(width: 25),
-                          _socialButton("assets/images/gmail.png"),
-                        ],
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _socialButton("assets/images/fb.png"),
+                        SizedBox(width: 25.w),
+                        _socialButton("assets/images/xx.png"),
+                        SizedBox(width: 25.w),
+                        _socialButton("assets/images/gmail.png"),
+                      ],
+                    ),
 
-                      const SizedBox(height: 35),
+                    SizedBox(height: 35.h),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "Don't have an account? ",
-                            style: TextStyle(color: Colors.black54),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don't have an account? ",
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 14.sp,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const Registerscreen(),
-                                ),
-                              );
-                            },
-                            child: const Text(
-                              "Register Now",
-                              style: TextStyle(
-                                color: Color(0xff43B343),
-                                fontWeight: FontWeight.bold,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const Registerscreen(),
                               ),
+                            );
+                          },
+                          child: Text(
+                            "Register Now",
+                            style: TextStyle(
+                              color: const Color(0xff43B343),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.sp,
                             ),
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(height: 20.h),
+                  ],
                 ),
               ],
             ),
@@ -220,17 +234,17 @@ class _LoginState extends State<Login> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(15.r),
       ),
       child: TextFormField(
         obscureText: isPassword ? _isObscure : false,
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: const TextStyle(color: Colors.grey, fontSize: 15),
-          prefixIcon: Icon(icon, color: const Color(0xff43B343)),
+          hintStyle: TextStyle(color: Colors.grey, fontSize: 15.sp),
+          prefixIcon: Icon(icon, color: const Color(0xff43B343), size: 22.sp),
           suffixIcon: suffixIcon,
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(vertical: 18),
+          contentPadding: EdgeInsets.symmetric(vertical: 18.h),
         ),
       ),
     );
@@ -238,20 +252,19 @@ class _LoginState extends State<Login> {
 
   Widget _socialButton(String imagePath) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        shape: BoxShape.circle, // خليته دائري أشيك
+        shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.15),
-            spreadRadius: 2,
-            blurRadius: 12,
-            offset: const Offset(0, 4),
+            blurRadius: 12.r,
+            offset: Offset(0, 4.h),
           ),
         ],
       ),
-      child: Image.asset(imagePath, height: 28, width: 28),
+      child: Image.asset(imagePath, height: 28.w, width: 28.w),
     );
   }
 }

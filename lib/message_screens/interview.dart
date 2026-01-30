@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class InterviewScreen extends StatelessWidget {
   const InterviewScreen({super.key});
@@ -11,23 +12,24 @@ class InterviewScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0.5,
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back_ios,
-            color: Color(0xFF1A1D3D),
-            size: 20,
+            color: const Color(0xFF1A1D3D),
+            size: 20.w,
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title: Text(
           'Job Interviews',
           style: TextStyle(
-            color: Color(0xFF1A1D3D),
+            color: const Color(0xFF1A1D3D),
             fontWeight: FontWeight.bold,
+            fontSize: 18.sp,
           ),
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.w),
         children: [
           _buildInterviewCard(
             context,
@@ -53,23 +55,23 @@ class InterviewScreen extends StatelessWidget {
   }
 
   Widget _buildInterviewCard(
-    BuildContext context,
-    String company,
-    String role,
-    String time,
-    String location,
-    String img,
-    Color accentColor,
-  ) {
+      BuildContext context,
+      String company,
+      String role,
+      String time,
+      String location,
+      String img,
+      Color accentColor,
+      ) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: 16.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.03),
-            blurRadius: 10,
+            blurRadius: 10.r,
             offset: const Offset(0, 4),
           ),
         ],
@@ -77,12 +79,12 @@ class InterviewScreen extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            contentPadding: const EdgeInsets.all(16),
+            contentPadding: EdgeInsets.all(16.w),
             leading: Container(
-              width: 50,
-              height: 50,
+              width: 50.w,
+              height: 50.w,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
                 image: DecorationImage(
                   image: AssetImage(img),
                   fit: BoxFit.cover,
@@ -91,32 +93,39 @@ class InterviewScreen extends StatelessWidget {
             ),
             title: Text(
               company,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 17.sp,
+              ),
             ),
             subtitle: Text(
               role,
-              style: TextStyle(color: accentColor, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                color: accentColor,
+                fontWeight: FontWeight.w600,
+                fontSize: 14.sp,
+              ),
             ),
-            trailing: const Icon(Icons.videocam_outlined, color: Colors.grey),
+            trailing: Icon(Icons.videocam_outlined, color: Colors.grey, size: 22.sp),
           ),
-          const Divider(height: 1),
+          Divider(height: 1.h, thickness: 1.h),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.calendar_today,
-                      size: 16,
+                      size: 16.sp,
                       color: Colors.grey,
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8.w),
                     Text(
                       time,
-                      style: const TextStyle(
-                        fontSize: 13,
+                      style: TextStyle(
+                        fontSize: 13.sp,
                         color: Colors.black87,
                       ),
                     ),
@@ -127,14 +136,15 @@ class InterviewScreen extends StatelessWidget {
                   style: TextButton.styleFrom(
                     backgroundColor: const Color(0xFF5E8D5E).withOpacity(0.1),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8.r),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Join Now',
                     style: TextStyle(
-                      color: Color(0xFF5E8D5E),
+                      color: const Color(0xFF5E8D5E),
                       fontWeight: FontWeight.bold,
+                      fontSize: 14.sp,
                     ),
                   ),
                 ),

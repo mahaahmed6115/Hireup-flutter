@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UnreadMessagesScreen extends StatelessWidget {
   const UnreadMessagesScreen({super.key});
@@ -11,23 +12,24 @@ class UnreadMessagesScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0.5,
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back_ios,
-            color: Color(0xFF1A1D3D),
-            size: 20,
+            color: const Color(0xFF1A1D3D),
+            size: 20.sp,
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title: Text(
           'Unread Messages',
           style: TextStyle(
-            color: Color(0xFF1A1D3D),
+            color: const Color(0xFF1A1D3D),
             fontWeight: FontWeight.bold,
+            fontSize: 20.sp,
           ),
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.w),
         children: [
           _buildUnreadTile(
             'Google',
@@ -56,42 +58,42 @@ class UnreadMessagesScreen extends StatelessWidget {
   }
 
   Widget _buildUnreadTile(
-    String name,
-    String sub,
-    String time,
-    int unread,
-    String imagePath,
-  ) {
+      String name,
+      String sub,
+      String time,
+      int unread,
+      String imagePath,
+      ) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin: EdgeInsets.only(bottom: 12.h),
+      padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.02),
-            blurRadius: 5,
-            offset: const Offset(0, 2),
+            blurRadius: 5.r,
+            offset: Offset(0, 2.h),
           ),
         ],
       ),
       child: Row(
         children: [
           Container(
-            width: 55,
-            height: 55,
+            width: 55.w,
+            height: 55.w,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
               image: DecorationImage(
                 image: AssetImage(imagePath),
                 fit: BoxFit.cover,
-                onError: (exception, stackTrace) => {},
+                onError: (exception, stackTrace) {},
               ),
               color: Colors.grey.shade200,
             ),
           ),
-          const SizedBox(width: 15),
+          SizedBox(width: 15.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,22 +103,22 @@ class UnreadMessagesScreen extends StatelessWidget {
                   children: [
                     Text(
                       name,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                       ),
                     ),
                     Text(
                       time,
-                      style: const TextStyle(
-                        color: Color(0xFF5E8D5E),
-                        fontSize: 11,
+                      style: TextStyle(
+                        color: const Color(0xFF5E8D5E),
+                        fontSize: 11.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4.h),
                 Row(
                   children: [
                     Expanded(
@@ -124,27 +126,27 @@ class UnreadMessagesScreen extends StatelessWidget {
                         sub,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.black87,
-                          fontSize: 13,
+                          fontSize: 13.sp,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                        vertical: 4.h,
                       ),
                       decoration: BoxDecoration(
                         color: const Color(0xFF5E8D5E),
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                       ),
                       child: Text(
                         '$unread',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
-                          fontSize: 10,
+                          fontSize: 10.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

@@ -1,107 +1,121 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hireup/forget_password_screens/OtpVerificationScreen.dart';
 
 class Forgetpass extends StatelessWidget {
   const Forgetpass({super.key});
 
   final Color primaryColor = const Color(0xff43B343);
-  final double defaultPadding = 25.0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back_ios_new,
             color: Colors.black,
-            size: 24,
-          ), // سهم أنحف وأشيك
+            size: 22.sp,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
       ),
 
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+          padding: EdgeInsets.symmetric(horizontal: 25.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 20),
-              // عنوان الصفحة بخط عريض وجذاب
-              const Text(
+              SizedBox(height: 20.h),
+
+              /// Title
+              Text(
                 "Forget Password",
                 style: TextStyle(
-                  color: Color(0xFF1A1D3D),
+                  color: const Color(0xFF1A1D3D),
                   fontWeight: FontWeight.bold,
-                  fontSize: 32,
+                  fontSize: 32.sp,
                 ),
               ),
-              const SizedBox(height: 12),
-              // نص توضيحي
+
+              SizedBox(height: 12.h),
+
+              /// Description
               Text(
                 "Please enter your email to reset the password",
                 style: TextStyle(
                   color: Colors.grey.shade600,
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   height: 1.5,
                 ),
               ),
 
-              const SizedBox(height: 50),
+              SizedBox(height: 50.h),
 
-              // عنوان حقل الإدخال
-              const Text(
+              /// Label
+              Text(
                 "Your Email Address",
                 style: TextStyle(
-                  color: Color(0xFF1A1D3D),
-                  fontSize: 16,
+                  color: const Color(0xFF1A1D3D),
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                 ),
               ),
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
 
-              // حقل الإيميل بتصميم عصري (متناسق مع اللوج إن)
+              /// Email Field
               TextFormField(
                 keyboardType: TextInputType.emailAddress,
-                style: const TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16.sp),
                 decoration: InputDecoration(
                   hintText: "example@email.com",
-                  hintStyle: TextStyle(color: Colors.grey.shade400),
-                  prefixIcon: Icon(Icons.email_outlined, color: primaryColor),
+                  hintStyle: TextStyle(
+                    color: Colors.grey.shade400,
+                    fontSize: 14.sp,
+                  ),
+                  prefixIcon: Icon(
+                    Icons.email_outlined,
+                    color: primaryColor,
+                    size: 22.sp,
+                  ),
                   filled: true,
                   fillColor: Colors.grey[100],
-                  contentPadding: const EdgeInsets.symmetric(
-                    vertical: 18,
-                    horizontal: 20,
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 18.h,
+                    horizontal: 20.w,
                   ),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(15.r),
                     borderSide: BorderSide.none,
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: BorderSide(color: primaryColor, width: 1.5),
+                    borderRadius: BorderRadius.circular(15.r),
+                    borderSide: BorderSide(
+                      color: primaryColor,
+                      width: 1.5,
+                    ),
                   ),
                 ),
               ),
 
-              const SizedBox(height: 60),
+              SizedBox(height: 60.h),
 
-              // زرار إعادة تعيين كلمة السر
+              /// Reset Button
               SizedBox(
                 width: double.infinity,
-                height: 55,
+                height: 55.h,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const OtpVerificationScreen(),
+                        builder: (_) => const OtpVerificationScreen(),
                       ),
                     );
                   },
@@ -109,18 +123,22 @@ class Forgetpass extends StatelessWidget {
                     backgroundColor: primaryColor,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(15.r),
                     ),
                     elevation: 5,
                     shadowColor: primaryColor.withOpacity(0.3),
                   ),
-                  child: const Text(
+                  child: Text(
                     "Reset Password",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+
+              SizedBox(height: 20.h),
             ],
           ),
         ),

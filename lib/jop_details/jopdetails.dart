@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hireup/jop_details/apply_screen.dart';
 
 class JobDetailsScreen extends StatefulWidget {
@@ -32,6 +33,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     const Color primaryGreen = Color(0xFF5E8D5E);
     const Color textBodyColor = Color(0xFF4A4A4A);
 
@@ -41,9 +45,8 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
         children: [
           Stack(
             children: [
-              // زودنا الارتفاع هنا من 380 لـ 410 عشان المسافات
               Container(
-                height: 410,
+                height: screenHeight * 0.45, // ارتفاع ديناميكي
                 decoration: const BoxDecoration(
                   color: primaryGreen,
                   borderRadius: BorderRadius.only(
@@ -60,49 +63,48 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           IconButton(
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.arrow_back_ios_new,
                               color: Colors.white,
+                              size: screenWidth * 0.06,
                             ),
                             onPressed: () => Navigator.pop(context),
                           ),
                           IconButton(
                             icon: Icon(
-                              isSaved
-                                  ? Icons.bookmark
-                                  : Icons.bookmark_add_outlined,
+                              isSaved ? Icons.bookmark : Icons.bookmark_add_outlined,
                               color: isSaved ? Colors.yellow : Colors.white,
-                              size: 28,
+                              size: screenWidth * 0.07,
                             ),
                             onPressed: _handleSave,
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: screenHeight * 0.01),
                     Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: EdgeInsets.all(screenWidth * 0.03),
                       decoration: const BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         widget.job['logo'] ?? Icons.facebook,
-                        size: 50,
+                        size: screenWidth * 0.12,
                         color: const Color(0xFF1877F2),
                       ),
                     ),
-                    const SizedBox(height: 15),
+                    SizedBox(height: screenHeight * 0.02),
                     Text(
                       widget.job['role'],
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
-                        fontSize: 26,
+                        fontSize: screenWidth * 0.065,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -110,28 +112,27 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       widget.job['company'],
                       style: TextStyle(
                         color: Colors.white.withOpacity(0.9),
-                        fontSize: 18,
+                        fontSize: screenWidth * 0.045,
                       ),
                     ),
-                    const SizedBox(height: 25),
+                    SizedBox(height: screenHeight * 0.03),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _buildTopTag('Design'),
-                        _buildTopTag('Full-Time'),
-                        _buildTopTag('Senior'),
+                        _buildTopTag('Design', screenWidth),
+                        _buildTopTag('Full-Time', screenWidth),
+                        _buildTopTag('Senior', screenWidth),
                       ],
                     ),
-                    const SizedBox(height: 30),
+                    SizedBox(height: screenHeight * 0.035),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _buildHeaderInfo(widget.job['salary'], 'Salary'),
-                        _buildHeaderInfo(widget.job['location'], 'Location'),
+                        _buildHeaderInfo(widget.job['salary'], 'Salary', screenWidth),
+                        _buildHeaderInfo(widget.job['location'], 'Location', screenWidth),
                       ],
                     ),
-                    // مسافة إضافية بسيطة للتأكيد إن مفيش حاجة لازقة
-                    const SizedBox(height: 10),
+                    SizedBox(height: screenHeight * 0.01),
                   ],
                 ),
               ),
@@ -143,13 +144,15 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
               length: 4,
               child: Column(
                 children: [
-                  const TabBar(
-                    labelColor: Color(0xFF1A1D3D),
+                  TabBar(
+                    labelColor: const Color(0xFF1A1D3D),
                     unselectedLabelColor: Colors.grey,
                     indicatorColor: primaryGreen,
                     indicatorWeight: 4,
-                    labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                    tabs: [
+                    labelStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.sp),
+                    tabs: const [
                       Tab(text: 'Description'),
                       Tab(text: 'Requirement'),
                       Tab(text: 'About'),
@@ -159,10 +162,10 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   Expanded(
                     child: TabBarView(
                       children: [
-                        _buildDescriptionTab(textBodyColor),
-                        _buildRequirementTab(textBodyColor),
-                        _buildAboutTab(textBodyColor),
-                        _buildReviewsTab(textBodyColor),
+                        _buildDescriptionTab(textBodyColor, screenWidth),
+                        _buildRequirementTab(textBodyColor, screenWidth),
+                        _buildAboutTab(textBodyColor, screenWidth),
+                        _buildReviewsTab(textBodyColor, screenWidth),
                       ],
                     ),
                   ),
@@ -172,10 +175,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
           ),
 
           Padding(
-            padding: const EdgeInsets.fromLTRB(25, 10, 25, 30),
+            padding: EdgeInsets.fromLTRB(screenWidth * 0.06, screenHeight * 0.01,
+                screenWidth * 0.06, screenHeight * 0.03),
             child: SizedBox(
               width: double.infinity,
-              height: 60,
+              height: screenHeight * 0.08,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -191,11 +195,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'Apply Now',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: screenWidth * 0.05,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -207,161 +211,105 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
     );
   }
 
-  Widget _buildDescriptionTab(Color textColor) {
+  // تعديل الـ widgets لتكون responsive
+  Widget _buildDescriptionTab(Color textColor, double screenWidth) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(25),
+      padding: EdgeInsets.all(screenWidth * 0.06),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Job Summary',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: Color(0xFF1A1D3D),
-            ),
-          ),
-          const SizedBox(height: 10),
+          Text('Job Summary',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: screenWidth * 0.045,
+                  color: const Color(0xFF1A1D3D))),
+          SizedBox(height: screenWidth * 0.02),
           Text(
             'We are the teams who create all of Facebook\'s products used by billions of people around the world. Want to build new features?',
-            style: TextStyle(color: textColor, height: 1.5, fontSize: 15),
+            style: TextStyle(color: textColor, height: 1.5, fontSize: screenWidth * 0.037),
           ),
-          const SizedBox(height: 20),
-          const Text(
-            'Responsibilities:',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-              color: Color(0xFF1A1D3D),
-            ),
-          ),
-          const SizedBox(height: 10),
-          _buildBulletPoint(
-            'Full stack web/mobile application development.',
-            textColor,
-          ),
-          _buildBulletPoint(
-            'Create consumer products and features using Hack.',
-            textColor,
-          ),
-          _buildBulletPoint(
-            'Implement interfaces using XHTML, CSS, and JS.',
-            textColor,
-          ),
+          SizedBox(height: screenWidth * 0.04),
+          Text('Responsibilities:',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: screenWidth * 0.042,
+                  color: const Color(0xFF1A1D3D))),
+          SizedBox(height: screenWidth * 0.02),
+          _buildBulletPoint('Full stack web/mobile application development.', textColor, screenWidth),
+          _buildBulletPoint('Create consumer products and features using Hack.', textColor, screenWidth),
+          _buildBulletPoint('Implement interfaces using XHTML, CSS, and JS.', textColor, screenWidth),
         ],
       ),
     );
   }
 
-  Widget _buildRequirementTab(Color textColor) {
+  Widget _buildRequirementTab(Color textColor, double screenWidth) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(25),
+      padding: EdgeInsets.all(screenWidth * 0.06),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Qualifications',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: Color(0xFF1A1D3D),
-            ),
-          ),
-          const SizedBox(height: 15),
-          _buildBulletPoint(
-            'Bachelor\'s degree in Computer Science or equivalent.',
-            textColor,
-          ),
-          _buildBulletPoint(
-            '3+ years of experience with Software Engineer roles.',
-            textColor,
-          ),
-          _buildBulletPoint(
-            'Strong understanding of Software Design Patterns.',
-            textColor,
-          ),
-          _buildBulletPoint(
-            'Proficiency in Dart, Flutter, or related frameworks.',
-            textColor,
-          ),
-          _buildBulletPoint(
-            'Experience with Git and CI/CD pipelines.',
-            textColor,
-          ),
+          Text('Qualifications',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: screenWidth * 0.045,
+                  color: const Color(0xFF1A1D3D))),
+          SizedBox(height: screenWidth * 0.03),
+          _buildBulletPoint('Bachelor\'s degree in Computer Science or equivalent.', textColor, screenWidth),
+          _buildBulletPoint('3+ years of experience with Software Engineer roles.', textColor, screenWidth),
+          _buildBulletPoint('Strong understanding of Software Design Patterns.', textColor, screenWidth),
+          _buildBulletPoint('Proficiency in Dart, Flutter, or related frameworks.', textColor, screenWidth),
+          _buildBulletPoint('Experience with Git and CI/CD pipelines.', textColor, screenWidth),
         ],
       ),
     );
   }
 
-  Widget _buildAboutTab(Color textColor) {
+  Widget _buildAboutTab(Color textColor, double screenWidth) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(25),
+      padding: EdgeInsets.all(screenWidth * 0.06),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'About ${widget.job['company']}',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: Color(0xFF1A1D3D),
-            ),
-          ),
-          const SizedBox(height: 12),
+          Text('About ${widget.job['company']}',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: screenWidth * 0.045,
+                  color: const Color(0xFF1A1D3D))),
+          SizedBox(height: screenWidth * 0.02),
           Text(
             'Our company is a global leader in tech innovation, providing a creative environment where everyone can grow.',
-            style: TextStyle(color: textColor, height: 1.6, fontSize: 15),
+            style: TextStyle(color: textColor, height: 1.6, fontSize: screenWidth * 0.037),
           ),
-          const SizedBox(height: 15),
-          const Text(
-            'Work Culture',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-              color: Color(0xFF1A1D3D),
-            ),
-          ),
+          SizedBox(height: screenWidth * 0.03),
+          Text('Work Culture',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: screenWidth * 0.042,
+                  color: const Color(0xFF1A1D3D))),
           Text(
             '• Flexible Working Hours\n• Remote-First Culture\n• Weekly Learning Sessions',
-            style: TextStyle(color: textColor, height: 1.8, fontSize: 14),
+            style: TextStyle(color: textColor, height: 1.8, fontSize: screenWidth * 0.034),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildReviewsTab(Color textColor) {
+  Widget _buildReviewsTab(Color textColor, double screenWidth) {
     return ListView(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(screenWidth * 0.05),
       children: [
-        _buildReviewItem(
-          'Ahmed Ali',
-          'Software Architect',
-          'Great company culture! 5/5',
-          '5.0',
-          textColor,
-        ),
-        _buildReviewItem(
-          'Sarah J.',
-          'Product Designer',
-          'Very professional process.',
-          '4.8',
-          textColor,
-        ),
+        _buildReviewItem('Ahmed Ali', 'Software Architect', 'Great company culture! 5/5', '5.0', textColor, screenWidth),
+        _buildReviewItem('Sarah J.', 'Product Designer', 'Very professional process.', '4.8', textColor, screenWidth),
       ],
     );
   }
 
-  Widget _buildReviewItem(
-    String name,
-    String pos,
-    String comment,
-    String rate,
-    Color textColor,
-  ) {
+  Widget _buildReviewItem(String name, String pos, String comment, String rate, Color textColor, double screenWidth) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 15),
-      padding: const EdgeInsets.all(15),
+      margin: EdgeInsets.only(bottom: screenWidth * 0.035),
+      padding: EdgeInsets.all(screenWidth * 0.035),
       decoration: BoxDecoration(
         color: Colors.grey[50],
         borderRadius: BorderRadius.circular(15),
@@ -370,46 +318,42 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                name,
-                style: const TextStyle(
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(name,
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF1A1D3D),
-                ),
-              ),
-              Row(
-                children: [
-                  const Icon(Icons.star, color: Colors.orange, size: 16),
-                  Text(' $rate'),
-                ],
-              ),
-            ],
-          ),
-          Text(pos, style: const TextStyle(color: Colors.grey, fontSize: 12)),
-          const SizedBox(height: 8),
-          Text(comment, style: TextStyle(fontSize: 14, color: textColor)),
+                  color: const Color(0xFF1A1D3D),
+                  fontSize: screenWidth * 0.04,
+                )),
+            Row(
+              children: [
+                Icon(Icons.star, color: Colors.orange, size: screenWidth * 0.04),
+                Text(' $rate', style: TextStyle(fontSize: screenWidth * 0.037)),
+              ],
+            ),
+          ]),
+          Text(pos, style: TextStyle(color: Colors.grey, fontSize: screenWidth * 0.033)),
+          SizedBox(height: screenWidth * 0.02),
+          Text(comment, style: TextStyle(fontSize: screenWidth * 0.037, color: textColor)),
         ],
       ),
     );
   }
 
-  Widget _buildBulletPoint(String text, Color textColor) {
+  Widget _buildBulletPoint(String text, Color textColor, double screenWidth) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
+      padding: EdgeInsets.symmetric(vertical: screenWidth * 0.015),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.check_circle, color: Color(0xFF5E8D5E), size: 18),
-          const SizedBox(width: 10),
+          Icon(Icons.check_circle, color: const Color(0xFF5E8D5E), size: screenWidth * 0.045),
+          SizedBox(width: screenWidth * 0.03),
           Expanded(
             child: Text(
               text,
               style: TextStyle(
                 color: textColor,
-                fontSize: 15,
+                fontSize: screenWidth * 0.037,
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -419,39 +363,39 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
     );
   }
 
-  Widget _buildTopTag(String label) {
+  Widget _buildTopTag(String label, double screenWidth) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 5),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.015),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: screenWidth * 0.02),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
         label,
-        style: const TextStyle(
+        style: TextStyle(
           color: Colors.white,
-          fontSize: 12,
+          fontSize: screenWidth * 0.033,
           fontWeight: FontWeight.w500,
         ),
       ),
     );
   }
 
-  Widget _buildHeaderInfo(String value, String label) {
+  Widget _buildHeaderInfo(String value, String label, double screenWidth) {
     return Column(
       children: [
         Text(
           value,
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 16,
+            fontSize: screenWidth * 0.04,
           ),
         ),
         Text(
           label,
-          style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 12),
+          style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: screenWidth * 0.033),
         ),
       ],
     );

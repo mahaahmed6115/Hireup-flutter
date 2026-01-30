@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hireup/sign_in_screens/login.dart';
 
 class Succespas extends StatelessWidget {
@@ -11,95 +12,99 @@ class Succespas extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40.0),
+            padding: EdgeInsets.symmetric(horizontal: 40.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // صورة تعبيرية عن النجاح (Illustration)
-                // لو عندك صورة جاهزة استخدمي Image.asset، لو معندكيش الدايرة دي شكلها مودرن جداً
+                /// Success Icon
                 Container(
-                  width: 150,
-                  height: 150,
+                  width: 150.w,
+                  height: 150.w,
                   decoration: BoxDecoration(
                     color: _primaryColor.withOpacity(0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Center(
                     child: Container(
-                      width: 100,
-                      height: 100,
+                      width: 100.w,
+                      height: 100.w,
                       decoration: BoxDecoration(
                         color: _primaryColor,
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
                             color: _primaryColor.withOpacity(0.3),
-                            blurRadius: 20,
-                            spreadRadius: 5,
+                            blurRadius: 20.r,
+                            spreadRadius: 5.r,
                           ),
                         ],
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.check_rounded,
                         color: Colors.white,
-                        size: 65,
+                        size: 65.sp,
                       ),
                     ),
                   ),
                 ),
 
-                const SizedBox(height: 40),
+                SizedBox(height: 40.h),
 
+                /// Title
                 Text(
                   "Successful",
                   style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 30.sp,
                     fontWeight: FontWeight.bold,
                     color: _titleColor,
                   ),
                 ),
 
-                const SizedBox(height: 15),
+                SizedBox(height: 15.h),
 
-                const Text(
+                /// Description
+                Text(
                   "Congratulations! Your password has been changed. Click continue to login",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     color: Colors.grey,
                     height: 1.5,
                   ),
                 ),
 
-                const SizedBox(height: 50),
+                SizedBox(height: 50.h),
 
-                // زرار الاستمرار بتصميم متناسق مع باقي الشاشات
+                /// Continue Button
                 SizedBox(
                   width: double.infinity,
-                  height: 55,
+                  height: 55.h,
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => const Login()),
+                        MaterialPageRoute(
+                          builder: (_) => const Login(),
+                        ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: _primaryColor,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(15.r),
                       ),
                       elevation: 5,
                       shadowColor: _primaryColor.withOpacity(0.3),
                     ),
-                    child: const Text(
+                    child: Text(
                       "Continue to Login",
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hireup/jop_preference.dart';
 
 class Joptype extends StatefulWidget {
@@ -9,10 +10,8 @@ class Joptype extends StatefulWidget {
 }
 
 class _JoptypeState extends State<Joptype> {
-  // قائمة لتخزين أنواع التوظيف المختارة
   final List<String> _selectedTypes = [];
 
-  // البيانات الخاصة بالشاشة الجديدة (Employment Types)
   final List<Map<String, dynamic>> _jobTypes = [
     {'name': 'Full-Time', 'icon': Icons.access_time},
     {'name': 'Part-Time', 'icon': Icons.more_time},
@@ -23,168 +22,167 @@ class _JoptypeState extends State<Joptype> {
 
   @override
   Widget build(BuildContext context) {
-    // الزرار هينور لما نختار اختيار واحد على الأقل
     bool isButtonActive = _selectedTypes.isNotEmpty;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      builder: (context, child) => Scaffold(
         backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.close, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          'HireUp',
-          style: TextStyle(
-            color: Color(0xFF5E8D5E),
-            fontWeight: FontWeight.bold,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.close, color: Colors.black, size: 22.w),
+            onPressed: () => Navigator.pop(context),
           ),
-        ),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 40),
-            // تغيير صياغة السؤال عشان الاختلاف عن الشاشة السابقة
-            const Text(
-              'Select your preferred\nemployment type',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF1A1D3D),
-              ),
+          title: Text(
+            'HireUp',
+            style: TextStyle(
+              color: const Color(0xFF5E8D5E),
+              fontWeight: FontWeight.bold,
+              fontSize: 18.sp,
             ),
-            const SizedBox(height: 30),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _jobTypes.length,
-                itemBuilder: (context, index) {
-                  String typeName = _jobTypes[index]['name'];
-                  bool isSelected = _selectedTypes.contains(typeName);
+          ),
+          centerTitle: true,
+        ),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 40.h),
+              Text(
+                'Select your preferred\nemployment type',
+                style: TextStyle(
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF1A1D3D),
+                ),
+              ),
+              SizedBox(height: 30.h),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _jobTypes.length,
+                  itemBuilder: (context, index) {
+                    String typeName = _jobTypes[index]['name'];
+                    bool isSelected = _selectedTypes.contains(typeName);
 
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if (isSelected) {
-                          _selectedTypes.remove(typeName);
-                        } else {
-                          _selectedTypes.add(typeName);
-                        }
-                      });
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 15),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 15,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: isSelected
-                              ? const Color(0xFF5E8D5E)
-                              : Colors.grey.shade100,
-                          width: 1.5,
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (isSelected) {
+                            _selectedTypes.remove(typeName);
+                          } else {
+                            _selectedTypes.add(typeName);
+                          }
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 15.h),
+                        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12.r),
+                          border: Border.all(
+                            color: isSelected
+                                ? const Color(0xFF5E8D5E)
+                                : Colors.grey.shade100,
+                            width: 1.5.w,
+                          ),
+                          boxShadow: [
+                            if (isSelected)
+                              BoxShadow(
+                                color: Colors.green.withOpacity(0.05),
+                                blurRadius: 10.r,
+                                spreadRadius: 2.r,
+                              ),
+                          ],
                         ),
-                        boxShadow: [
-                          if (isSelected)
-                            BoxShadow(
-                              color: Colors.green.withOpacity(0.05),
-                              blurRadius: 10,
-                              spreadRadius: 2,
+                        child: Row(
+                          children: [
+                            Icon(
+                              _jobTypes[index]['icon'],
+                              color: Colors.grey[600],
+                              size: 22.w,
                             ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            _jobTypes[index]['icon'],
-                            color: Colors.grey[600],
-                          ),
-                          const SizedBox(width: 15),
-                          Text(
-                            typeName,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const Spacer(),
-                          // شكل الـ Checkmark الدائري
-                          Container(
-                            height: 22,
-                            width: 22,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: isSelected
-                                  ? const Color(0xFF5E8D5E)
-                                  : Colors.transparent,
-                              border: Border.all(
-                                color: isSelected
-                                    ? const Color(0xFF5E8D5E)
-                                    : Colors.grey.shade300,
+                            SizedBox(width: 15.w),
+                            Text(
+                              typeName,
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                            child: isSelected
-                                ? const Icon(
-                                    Icons.check,
-                                    size: 16,
-                                    color: Colors.white,
-                                  )
-                                : null,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            // الزرار (Next) مع تغيير الحالة بناءً على الاختيار
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30),
-              child: SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton(
-                  onPressed: isButtonActive
-                      ? () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const JobPreferences(),
+                            Spacer(),
+                            Container(
+                              height: 22.h,
+                              width: 22.w,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: isSelected
+                                    ? const Color(0xFF5E8D5E)
+                                    : Colors.transparent,
+                                border: Border.all(
+                                  color: isSelected
+                                      ? const Color(0xFF5E8D5E)
+                                      : Colors.grey.shade300,
+                                ),
+                              ),
+                              child: isSelected
+                                  ? Icon(
+                                Icons.check,
+                                size: 16.sp,
+                                color: Colors.white,
+                              )
+                                  : null,
                             ),
-                          );
-                        }
-                      : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: isButtonActive
-                        ? const Color(0xFF5E8D5E)
-                        : Colors.grey[300],
-                    disabledBackgroundColor: Colors.grey[300],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 30.h),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 55.h,
+                  child: ElevatedButton(
+                    onPressed: isButtonActive
+                        ? () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const JobPreferences(),
+                        ),
+                      );
+                    }
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: isButtonActive
+                          ? const Color(0xFF5E8D5E)
+                          : Colors.grey[300],
+                      disabledBackgroundColor: Colors.grey[300],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      elevation: 0,
                     ),
-                    elevation: 0,
-                  ),
-                  child: const Text(
-                    'Next',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                    child: Text(
+                      'Next',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -1,31 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hireup/forget_password_screens/newpass.dart' show Newpass;
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hireup/forget_password_screens/newpass.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
   const OtpVerificationScreen({super.key});
 
   @override
-  State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
+  State<OtpVerificationScreen> createState() =>
+      _OtpVerificationScreenState();
 }
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
-  final List<FocusNode> _focusNodes = List.generate(5, (index) => FocusNode());
+  final List<FocusNode> _focusNodes =
+  List.generate(5, (_) => FocusNode());
+
   final Color _primaryColor = const Color(0xff43B343);
   final Color _titleColor = const Color(0xFF1A1D3D);
 
   Widget _buildOtpField(int index) {
     return Container(
-      width: 60, // تكبير العرض قليلاً للشياكة
-      height: 60,
+      width: 60.w,
+      height: 60.h,
       decoration: BoxDecoration(
-        color: Colors.grey[100], // خلفية باهتة متناسقة مع باقي الحقول
-        borderRadius: BorderRadius.circular(15),
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(15.r),
         border: Border.all(
           color: _focusNodes[index].hasFocus
               ? _primaryColor
               : Colors.transparent,
-          width: 2,
+          width: 2.w,
         ),
       ),
       child: Center(
@@ -34,7 +38,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           keyboardType: TextInputType.number,
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 24,
+            fontSize: 24.sp,
             fontWeight: FontWeight.bold,
             color: _titleColor,
           ),
@@ -44,11 +48,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           ],
           onChanged: (value) {
             if (value.length == 1 && index < 4) {
-              FocusScope.of(context).requestFocus(_focusNodes[index + 1]);
+              FocusScope.of(context)
+                  .requestFocus(_focusNodes[index + 1]);
             } else if (value.isEmpty && index > 0) {
-              FocusScope.of(context).requestFocus(_focusNodes[index - 1]);
+              FocusScope.of(context)
+                  .requestFocus(_focusNodes[index - 1]);
             }
-            setState(() {}); // لتحديث لون الحدود عند التغيير
+            setState(() {});
           },
           decoration: const InputDecoration(
             border: InputBorder.none,
@@ -73,38 +79,45 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
     return Scaffold(
       backgroundColor: Colors.white,
+
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back_ios_new,
             color: Colors.black,
-            size: 24,
+            size: 22.sp,
           ),
           onPressed: () => Navigator.pop(context),
         ),
       ),
+
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+          padding: EdgeInsets.symmetric(horizontal: 25.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
+
+              /// Title
               Text(
                 "Check your email",
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: 32.sp,
                   fontWeight: FontWeight.bold,
                   color: _titleColor,
                 ),
               ),
-              const SizedBox(height: 12),
+
+              SizedBox(height: 12.h),
+
+              /// Description
               RichText(
                 text: TextSpan(
-                  style: const TextStyle(
-                    fontSize: 16,
+                  style: TextStyle(
+                    fontSize: 16.sp,
                     color: Colors.grey,
                     height: 1.5,
                   ),
@@ -118,60 +131,69 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       ),
                     ),
                     const TextSpan(
-                      text: "\nEnter the 5-digit code mentioned in the email",
+                      text:
+                      "\nEnter the 5-digit code mentioned in the email",
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 50),
 
-              // حقول الـ OTP بتوزيع متناسق
+              SizedBox(height: 50.h),
+
+              /// OTP Fields
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(5, (index) => _buildOtpField(index)),
+                children:
+                List.generate(5, (index) => _buildOtpField(index)),
               ),
 
-              const SizedBox(height: 60),
+              SizedBox(height: 60.h),
 
-              // زرار التفعيل المتناسق
+              /// Verify Button
               SizedBox(
                 width: double.infinity,
-                height: 55,
+                height: 55.h,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const Newpass()),
+                      MaterialPageRoute(
+                        builder: (_) => const Newpass(),
+                      ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _primaryColor,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(15.r),
                     ),
                     elevation: 5,
-                    shadowColor: _primaryColor.withOpacity(0.3),
+                    shadowColor:
+                    _primaryColor.withOpacity(0.3),
                   ),
-                  child: const Text(
+                  child: Text(
                     "Verify Code",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
 
-              const SizedBox(height: 30),
+              SizedBox(height: 30.h),
 
-              // نص إعادة الإرسال
+              /// Resend
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     "Haven't got the email yet? ",
-                    style: TextStyle(color: Colors.grey, fontSize: 15),
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 15.sp,
+                    ),
                   ),
                   GestureDetector(
                     onTap: () {},
@@ -180,7 +202,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       style: TextStyle(
                         color: _primaryColor,
                         fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                        fontSize: 15.sp,
                         decoration: TextDecoration.underline,
                       ),
                     ),

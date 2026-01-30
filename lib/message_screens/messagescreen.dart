@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:hireup/message_screens/archive.dart'; // تأكدي من المسار
-import 'package:hireup/message_screens/interview.dart'; // تأكدي من المسار
-import 'package:hireup/message_screens/unread.dart'; // تأكدي من المسار
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hireup/message_screens/archive.dart';
+import 'package:hireup/message_screens/interview.dart';
+import 'package:hireup/message_screens/unread.dart';
+
+import '../Homepage.dart';
 
 // القوائم العامة لضمان الربط الفعلي
 List<Map<String, dynamic>> companyMessages = [
@@ -59,11 +62,27 @@ class _MessagesScreenState extends State<MessagesScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.5,
-        title: const Text(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: const Color(0xFF1A1D3D),
+            size: 20.w,
+          ),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Homepage(),
+              ),
+            );
+          },
+        ),
+        title: Text(
           'Messages',
           style: TextStyle(
-            color: Color(0xFF1A1D3D),
+            color: const Color(0xFF1A1D3D),
             fontWeight: FontWeight.bold,
+            fontSize: 22.sp,
           ),
         ),
       ),
@@ -73,19 +92,17 @@ class _MessagesScreenState extends State<MessagesScreen> {
           _buildQuickFilters(context),
           Expanded(
             child: ListView(
-              physics: const BouncingScrollPhysics(), // تحسين: حركة سحب مرنة
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              physics: const BouncingScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
               children: [
                 _buildHeaderSection('Companies'),
                 ...companyMessages
                     .map((msg) => _buildDismissibleTile(msg, companyMessages))
                     .toList(),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 _buildHeaderSection('Individual Messages'),
                 ...individualMessages
-                    .map(
-                      (msg) => _buildDismissibleTile(msg, individualMessages),
-                    )
+                    .map((msg) => _buildDismissibleTile(msg, individualMessages))
                     .toList(),
               ],
             ),
@@ -95,7 +112,6 @@ class _MessagesScreenState extends State<MessagesScreen> {
     );
   }
 
-  // الدالة المعدلة عشان تظهر كلمة "Swipe to Archive"
   Widget _buildDismissibleTile(Map<String, dynamic> msg, List list) {
     return Dismissible(
       key: UniqueKey(),
@@ -108,31 +124,29 @@ class _MessagesScreenState extends State<MessagesScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text("${msg['name']} moved to Archive"),
-            behavior:
-                SnackBarBehavior.floating, // تحسين: تظهر طائرة فوق الـ NavBar
+            behavior: SnackBarBehavior.floating,
             backgroundColor: const Color(0xFF1A1D3D),
           ),
         );
       },
-      // هنا التحسين اللي طلبتيه: إظهار الأيقونة والكلمة تحتها
       background: Container(
-        margin: const EdgeInsets.only(bottom: 12),
+        margin: EdgeInsets.only(bottom: 12.h),
         decoration: BoxDecoration(
           color: const Color(0xFF5E8D5E),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
         ),
         alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.only(left: 25),
+        padding: EdgeInsets.only(left: 25.w),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Icon(Icons.archive_outlined, color: Colors.white, size: 28),
-            SizedBox(height: 4),
+          children: [
+            Icon(Icons.archive_outlined, color: Colors.white, size: 28.sp),
+            SizedBox(height: 4.h),
             Text(
               "Swipe to Archive",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 10,
+                fontSize: 10.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -145,11 +159,11 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
   Widget _buildQuickFilters(BuildContext context) {
     return Container(
-      height: 50,
+      height: 50.h,
       color: Colors.white,
       child: ListView(
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.only(left: 16, bottom: 10),
+        padding: EdgeInsets.only(left: 16.w, bottom: 10.h),
         children: [
           _filterChip(context, 'All', true),
           _filterChip(context, 'Unread', false),
@@ -181,12 +195,12 @@ class _MessagesScreenState extends State<MessagesScreen> {
         }
       },
       child: Container(
-        margin: const EdgeInsets.only(right: 8),
-        padding: const EdgeInsets.symmetric(horizontal: 18),
+        margin: EdgeInsets.only(right: 8.w),
+        padding: EdgeInsets.symmetric(horizontal: 18.w),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: isSelected ? const Color(0xFF5E8D5E) : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           border: Border.all(
             color: isSelected ? Colors.transparent : Colors.grey.shade300,
           ),
@@ -195,7 +209,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
           label,
           style: TextStyle(
             color: isSelected ? Colors.white : Colors.grey.shade700,
-            fontSize: 13,
+            fontSize: 13.sp,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -205,33 +219,33 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
   Widget _buildMessageTile(Map<String, dynamic> msg) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin: EdgeInsets.only(bottom: 12.h),
+      padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.02),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
+            blurRadius: 8.r,
+            offset: Offset(0, 4.h),
           ),
         ],
       ),
       child: Row(
         children: [
           Container(
-            width: 55,
-            height: 55,
+            width: 55.w,
+            height: 55.w,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(14.r),
               image: DecorationImage(
                 image: AssetImage(msg['img']),
                 fit: BoxFit.cover,
               ),
             ),
           ),
-          const SizedBox(width: 15),
+          SizedBox(width: 15.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -241,40 +255,40 @@ class _MessagesScreenState extends State<MessagesScreen> {
                   children: [
                     Text(
                       msg['name'],
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Color(0xFF1A1D3D),
+                        fontSize: 16.sp,
+                        color: const Color(0xFF1A1D3D),
                       ),
                     ),
                     Text(
                       msg['time'],
-                      style: const TextStyle(color: Colors.grey, fontSize: 11),
+                      style: TextStyle(color: Colors.grey, fontSize: 11.sp),
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4.h),
                 Text(
                   msg['sub'],
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: Colors.grey, fontSize: 13),
+                  style: TextStyle(color: Colors.grey, fontSize: 13.sp),
                 ),
               ],
             ),
           ),
           if (msg['unread'] != null && msg['unread'] > 0)
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
               decoration: BoxDecoration(
                 color: const Color(0xFF5E8D5E),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.r),
               ),
               child: Text(
                 '${msg['unread']}',
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
-                  fontSize: 10,
+                  fontSize: 10.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -287,18 +301,18 @@ class _MessagesScreenState extends State<MessagesScreen> {
   Widget _buildSearchBar() {
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.w),
       child: Container(
         decoration: BoxDecoration(
           color: const Color(0xFFF4F6F8),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
         ),
-        child: const TextField(
+        child: TextField(
           decoration: InputDecoration(
             hintText: 'Search conversations...',
-            prefixIcon: Icon(Icons.search, color: Colors.grey, size: 20),
+            prefixIcon: Icon(Icons.search, color: Colors.grey, size: 20.sp),
             border: InputBorder.none,
-            contentPadding: EdgeInsets.symmetric(vertical: 12),
+            contentPadding: EdgeInsets.symmetric(vertical: 12.h),
           ),
         ),
       ),
@@ -307,13 +321,13 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
   Widget _buildHeaderSection(String title) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: EdgeInsets.symmetric(vertical: 16.h),
       child: Text(
         title,
-        style: const TextStyle(
-          fontSize: 16,
+        style: TextStyle(
+          fontSize: 16.sp,
           fontWeight: FontWeight.bold,
-          color: Color(0xFF1A1D3D),
+          color: const Color(0xFF1A1D3D),
         ),
       ),
     );

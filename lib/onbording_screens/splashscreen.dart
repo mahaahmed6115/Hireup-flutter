@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hireup/onbording_screens/onbordingscreen.dart';
 
 class Splashscreen extends StatefulWidget {
@@ -30,7 +31,7 @@ class _SplashscreenState extends State<Splashscreen>
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Onbordingscreen()),
+          MaterialPageRoute(builder: (context) => const Onbordingscreen()),
         );
       }
     });
@@ -49,12 +50,11 @@ class _SplashscreenState extends State<Splashscreen>
         width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(
-          // تدرج ألوان أنعم وأشيك متناسق مع هوية HireUp
           gradient: LinearGradient(
             colors: [
               Color(0xFF08423D),
               Color(0xFF0B6A4D),
-              Color(0xFF5E8D5E), // لون أخضر فاتح لكسر الحدة
+              Color(0xFF5E8D5E),
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -66,21 +66,21 @@ class _SplashscreenState extends State<Splashscreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // اللوجو بتاعك مع تظبيط المقاس
+                // اللوجو متكيف مع أي شاشة
                 Image.asset(
                   "assets/images/splash-removebg-preview 1.png",
-                  width: 220,
-                  height: 220,
+                  width: 220.w,
+                  height: 220.h,
                 ),
-                const SizedBox(height: 20),
-                // ممكن نضيف اسم التطبيق تحت اللوجو بشكل شيك
-                const Text(
+                SizedBox(height: 20.h),
+                // اسم التطبيق مع text scaling
+                Text(
                   "HireUp",
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 32.sp, // متكيف مع الشاشة
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
-                    letterSpacing: 2,
+                    letterSpacing: 2.w, // متكيف مع العرض
                   ),
                 ),
               ],

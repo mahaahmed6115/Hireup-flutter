@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hireup/homepage.dart';
 
 class SavedJobsScreen extends StatefulWidget {
@@ -22,92 +23,110 @@ class _SavedJobsScreenState extends State<SavedJobsScreen> {
         duration: const Duration(milliseconds: 800),
         behavior: SnackBarBehavior.floating,
         backgroundColor: const Color(0xFF1A1D3D),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF9F9F9),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.5,
-        centerTitle: false,
-        title: const Text(
-          'Saved Jobs',
-          style: TextStyle(
-            color: Color(0xFF1A1D3D),
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
+    return ScreenUtilInit(
+      designSize: const Size(440, 956),
+      minTextAdapt: true,
+      builder: (context, child) => Scaffold(
+        backgroundColor: const Color(0xFFF9F9F9),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0.5,
+          centerTitle: false,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: const Color(0xFF1A1D3D),
+              size: 20.w,
+            ),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Homepage(),
+                ),
+              );
+            },
+          ),
+          title: Text(
+            'Save Page',
+            style: TextStyle(
+              color: const Color(0xFF1A1D3D),
+              fontWeight: FontWeight.bold,
+              fontSize: 22.sp,
+            ),
           ),
         ),
+        body: savedJobs.isEmpty
+            ? _buildEmptyState()
+            : ListView.builder(
+          padding: EdgeInsets.all(20.w),
+          itemCount: savedJobs.length,
+          itemBuilder: (context, index) {
+            final job = savedJobs[index];
+            return _buildSavedJobCard(job, index);
+          },
+        ),
       ),
-      // عرض المحتوى بناءً على حالة القائمة
-      body: savedJobs.isEmpty
-          ? _buildEmptyState()
-          : ListView.builder(
-              padding: const EdgeInsets.all(20),
-              itemCount: savedJobs.length,
-              itemBuilder: (context, index) {
-                final job = savedJobs[index];
-                return _buildSavedJobCard(job, index);
-              },
-            ),
     );
   }
 
   Widget _buildSavedJobCard(Map<String, dynamic> job, int index) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 15),
-      padding: const EdgeInsets.all(15),
+      margin: EdgeInsets.only(bottom: 15.h),
+      padding: EdgeInsets.all(15.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.02),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            blurRadius: 10.r,
+            offset: Offset(0, 4.h),
           ),
         ],
       ),
       child: Row(
         children: [
           Container(
-            height: 55,
-            width: 55,
+            height: 55.h,
+            width: 55.w,
             decoration: BoxDecoration(
               color: job['color'].withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: Icon(job['logo'], color: job['color'], size: 28),
+            child: Icon(job['logo'], color: job['color'], size: 28.r),
           ),
-          const SizedBox(width: 15),
+          SizedBox(width: 15.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   job['role'],
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Color(0xFF1A1D3D),
+                    fontSize: 16.sp,
+                    color: const Color(0xFF1A1D3D),
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4.h),
                 Text(
                   job['company'],
-                  style: const TextStyle(color: Colors.grey, fontSize: 13),
+                  style: TextStyle(color: Colors.grey, fontSize: 13.sp),
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: 6.h),
                 Text(
                   job['location'],
-                  style: const TextStyle(
-                    color: Color(0xFF5E8D5E),
-                    fontSize: 11,
+                  style: TextStyle(
+                    color: const Color(0xFF5E8D5E),
+                    fontSize: 11.sp,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -115,7 +134,7 @@ class _SavedJobsScreenState extends State<SavedJobsScreen> {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.bookmark, color: Colors.yellow, size: 28),
+            icon: Icon(Icons.bookmark, color: Colors.yellow, size: 28.r),
             onPressed: () => _removeFromSaved(index),
           ),
         ],
@@ -126,26 +145,26 @@ class _SavedJobsScreenState extends State<SavedJobsScreen> {
   Widget _buildEmptyState() {
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center, // تم التصحيح
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.bookmark_border_rounded,
-            size: 80,
+            size: 80.r,
             color: Colors.grey.shade300,
           ),
-          const SizedBox(height: 20),
-          const Text(
+          SizedBox(height: 20.h),
+          Text(
             'Your list is empty',
             style: TextStyle(
-              color: Color(0xFF1A1D3D),
-              fontSize: 18,
+              color: const Color(0xFF1A1D3D),
+              fontSize: 18.sp,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 8),
-          const Text(
+          SizedBox(height: 8.h),
+          Text(
             'Saved jobs will appear here.',
-            style: TextStyle(color: Colors.grey, fontSize: 14),
+            style: TextStyle(color: Colors.grey, fontSize: 14.sp),
           ),
         ],
       ),

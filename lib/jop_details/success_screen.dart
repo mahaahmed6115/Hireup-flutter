@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hireup/Homepage.dart';
 import 'package:hireup/jop_details/track.dart';
 
@@ -21,32 +22,34 @@ class SuccessScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
+          padding: EdgeInsets.symmetric(horizontal: 30.w),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
-              // الصورة المطلوبة بالمسار اللي حددتيه
+
               Image.asset(
                 'assets/images/Done.png',
-                height: 250,
+                height: 250.h,
                 fit: BoxFit.contain,
               ),
-              const SizedBox(height: 40),
-              const Text(
+              SizedBox(height: 30.h),
+
+              Text(
                 'Successful',
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 32.sp,
                   fontWeight: FontWeight.bold,
                   color: darkBlue,
                 ),
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.h),
+
               Text(
                 'You\'ve successfully applied to $companyName\n$jobRole role.',
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 16,
+                style: TextStyle(
+                  fontSize: 16.sp,
                   color: Colors.grey,
                   height: 1.5,
                   fontWeight: FontWeight.w500,
@@ -54,10 +57,10 @@ class SuccessScreen extends StatelessWidget {
               ),
               const Spacer(),
 
-              // زرار التتبع - بيفتح شاشة التتبع
+              // زرار التتبع
               SizedBox(
                 width: double.infinity,
-                height: 55,
+                height: 55.h,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -76,52 +79,51 @@ class SuccessScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: primaryGreen,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
                     elevation: 0,
                   ),
-                  child: const Text(
+                  child: Text(
                     'Track',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
+              SizedBox(height: 15.h),
 
-              const SizedBox(height: 15),
-
-              // زرار العودة للوظائف - بيرجع للهوم بيج مباشرة
+              // زرار العودة للوظائف
               SizedBox(
                 width: double.infinity,
-                height: 55,
+                height: 55.h,
                 child: OutlinedButton(
                   onPressed: () {
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => const Homepage()),
-                      (route) => false,
+                          (route) => false,
                     );
                   },
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: primaryGreen),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Browse Jobs',
                     style: TextStyle(
                       color: primaryGreen,
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 25.h),
             ],
           ),
         ),

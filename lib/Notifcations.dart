@@ -1,91 +1,105 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'Homepage.dart';
 
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF9F9F9),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.5,
-        centerTitle: false,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Color(0xFF1A1D3D),
-            size: 20,
+    return ScreenUtilInit(
+      designSize: const Size(440, 965),
+      minTextAdapt: true,
+      builder: (context, child) => Scaffold(
+        backgroundColor: const Color(0xFFF9F9F9),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0.5,
+          centerTitle: false,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: const Color(0xFF1A1D3D),
+              size: 20.w,
+            ),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Homepage(),
+                ),
+              );
+            },
           ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          'Notifications',
-          style: TextStyle(
-            color: Color(0xFF1A1D3D),
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
+          title: Text(
+            'Notifications',
+            style: TextStyle(
+              color: const Color(0xFF1A1D3D),
+              fontWeight: FontWeight.bold,
+              fontSize: 22.sp,
+            ),
           ),
         ),
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSectionHeader('New activity'),
-            const SizedBox(height: 15),
-            _buildActivityTile(
-              title: 'Fiverr',
-              sub:
-                  'want to take a final interview of you where head of HR will see you!',
-              time: '12 min ago',
-              img: 'assets/images/fiver.png', // مكان صورة Fiverr
-              isNew: true,
-            ),
-            _buildActivityTile(
-              title: 'Macdonald',
-              sub:
-                  'want to contact with you in 24 hours with proper preparation',
-              time: '47 min ago',
-              img: 'assets/images/mac.png', // مكان صورة Macdonald
-              isNew: true,
-            ),
-            const SizedBox(height: 25),
-            _buildSectionHeader('Applications', hasSeeAll: true),
-            const SizedBox(height: 15),
-            _buildApplicationTile(
-              company: 'BMW',
-              status: 'Your application is submitted successfully',
-              time: '1 hrs ago',
-              img: 'assets/images/bmw.png', // مكان صورة BMW
-            ),
-            _buildApplicationTile(
-              company: 'Booking.com',
-              status:
-                  'reviewing your application, cover letter and portfolio. All the best!',
-              time: '3 hrs ago',
-              img: 'assets/images/booking.png', // مكان صورة Booking
-            ),
-            const SizedBox(height: 25),
-            _buildSectionHeader('Interview', hasSeeAll: true),
-            const SizedBox(height: 15),
-            _buildInterviewTile(
-              company: 'Beats',
-              sub:
-                  'Congratulations! Beats liked your resume and want to take an interview of you.',
-              time: '4 hrs ago',
-              img: 'assets/images/image 8.png', // مكان صورة Beats
-            ),
-            _buildInterviewTile(
-              company: 'Behance',
-              sub:
-                  'Congratulations! You passed the first round on Behance. Be prepare for next!',
-              time: '6 hrs ago',
-              img: 'assets/images/behance.png', // مكان صورة Behance
-            ),
-          ],
+        body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding: EdgeInsets.all(20.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildSectionHeader('New activity'),
+              SizedBox(height: 15.h),
+              _buildActivityTile(
+                title: 'Fiverr',
+                sub:
+                'want to take a final interview of you where head of HR will see you!',
+                time: '12 min ago',
+                img: 'assets/images/fiver.png',
+                isNew: true,
+              ),
+              _buildActivityTile(
+                title: 'Macdonald',
+                sub:
+                'want to contact with you in 24 hours with proper preparation',
+                time: '47 min ago',
+                img: 'assets/images/mac.png',
+                isNew: true,
+              ),
+              SizedBox(height: 25.h),
+              _buildSectionHeader('Applications', hasSeeAll: true),
+              SizedBox(height: 15.h),
+              _buildApplicationTile(
+                company: 'BMW',
+                status: 'Your application is submitted successfully',
+                time: '1 hrs ago',
+                img: 'assets/images/bmw.png',
+              ),
+              _buildApplicationTile(
+                company: 'Booking.com',
+                status:
+                'reviewing your application, cover letter and portfolio. All the best!',
+                time: '3 hrs ago',
+                img: 'assets/images/booking.png',
+              ),
+              SizedBox(height: 25.h),
+              _buildSectionHeader('Interview', hasSeeAll: true),
+              SizedBox(height: 15.h),
+              _buildInterviewTile(
+                company: 'Beats',
+                sub:
+                'Congratulations! Beats liked your resume and want to take an interview of you.',
+                time: '4 hrs ago',
+                img: 'assets/images/image 8.png',
+              ),
+              _buildInterviewTile(
+                company: 'Behance',
+                sub:
+                'Congratulations! You passed the first round on Behance. Be prepare for next!',
+                time: '6 hrs ago',
+                img: 'assets/images/behance.png',
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -97,16 +111,16 @@ class NotificationsScreen extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 18,
+          style: TextStyle(
+            fontSize: 18.sp,
             fontWeight: FontWeight.bold,
-            color: Color(0xFF1A1D3D),
+            color: const Color(0xFF1A1D3D),
           ),
         ),
         if (hasSeeAll)
-          const Text(
+          Text(
             'See all',
-            style: TextStyle(color: Colors.grey, fontSize: 13),
+            style: TextStyle(color: Colors.grey, fontSize: 13.sp),
           ),
       ],
     );
@@ -120,44 +134,44 @@ class NotificationsScreen extends StatelessWidget {
     bool isNew = false,
   }) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin: EdgeInsets.only(bottom: 12.h),
+      padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(radius: 25, backgroundImage: AssetImage(img)),
-          const SizedBox(width: 15),
+          CircleAvatar(radius: 25.r, backgroundImage: AssetImage(img)),
+          SizedBox(width: 15.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 RichText(
                   text: TextSpan(
-                    style: const TextStyle(color: Colors.black, fontSize: 14),
+                    style: TextStyle(color: Colors.black, fontSize: 14.sp),
                     children: [
                       TextSpan(
                         text: '$title ',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       TextSpan(text: sub),
                     ],
                   ),
                 ),
-                const SizedBox(height: 5),
+                SizedBox(height: 5.h),
                 Row(
                   children: [
                     Text(
                       time,
-                      style: const TextStyle(color: Colors.grey, fontSize: 12),
+                      style: TextStyle(color: Colors.grey, fontSize: 12.sp),
                     ),
                     if (isNew) ...[
-                      const SizedBox(width: 8),
-                      const CircleAvatar(
-                        radius: 4,
+                      SizedBox(width: 8.w),
+                      CircleAvatar(
+                        radius: 4.r,
                         backgroundColor: Colors.green,
                       ),
                     ],

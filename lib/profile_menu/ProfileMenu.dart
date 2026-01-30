@@ -1,114 +1,109 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hireup/profile_menu/resume.dart';
-// تأكدي إن المسار صح حسب مكان ملفك
 
 class Profilemenu extends StatelessWidget {
   const Profilemenu({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // الألوان اللي ماشيين بيها في البروجكت
     const Color themeGreen = Color(0xff35CA60);
     const Color darkGreen = Color(0xFF0B6A4D);
 
     return Dialog(
       backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 20),
+      insetPadding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(30.r),
         ),
         child: Stack(
           clipBehavior: Clip.none,
           alignment: Alignment.topCenter,
           children: [
-            // --- محتوى المنيو ---
+            /// المحتوى
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 70, 20, 20),
+              padding: EdgeInsets.fromLTRB(20.w, 70.h, 20.w, 20.h),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
+                    Text(
                       'Haley Jessica',
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 22.sp,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF1A1D3D),
+                        color: const Color(0xFF1A1D3D),
                       ),
                     ),
-                    const SizedBox(height: 5),
+
+                    SizedBox(height: 5.h),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
+                        Text(
                           'UX Designer',
-                          style: TextStyle(color: Colors.grey, fontSize: 14),
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14.sp,
+                          ),
                         ),
-                        const SizedBox(width: 5),
-                        const Icon(Icons.verified, color: themeGreen, size: 16),
+                        SizedBox(width: 5.w),
+                        Icon(
+                          Icons.verified,
+                          color: themeGreen,
+                          size: 16.sp,
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    const Text(
+
+                    SizedBox(height: 10.h),
+
+                    Text(
                       'View Profile',
                       style: TextStyle(
+                        fontSize: 14.sp,
                         color: darkGreen,
                         fontWeight: FontWeight.w600,
                         decoration: TextDecoration.underline,
                       ),
                     ),
-                    const SizedBox(height: 30),
 
-                    // القائمة المعدلة بالكامل
-                    _buildMenuItem(
-                      context,
-                      Icons.person_outline,
-                      'Personal Info',
-                    ),
+                    SizedBox(height: 30.h),
 
-                    // --- إضافة أيقونة تدريب الـ AI الجديدة هنا (بناءً على فكرة مشروعك) ---
+                    _buildMenuItem(context, Icons.person_outline, 'Personal Info'),
                     _buildMenuItem(
                       context,
                       Icons.psychology_outlined,
                       'AI Interview Trainer',
                       isAI: true,
                     ),
-
                     _buildMenuItem(
-                      context,
-                      Icons.assignment_outlined,
-                      'Applications',
-                    ),
+                        context, Icons.assignment_outlined, 'Applications'),
                     _buildMenuItem(
-                      context,
-                      Icons.description_outlined,
-                      'Proposals',
-                    ),
+                        context, Icons.description_outlined, 'Proposals'),
 
-                    // تعديل زر Resumes لينتقل لصفحة الرفع الجديدة
                     _buildMenuItem(
                       context,
                       Icons.contact_page_outlined,
                       'Resumes',
                       onTap: () {
-                        Navigator.pop(context); // إغلاق المنيو
+                        Navigator.pop(context);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const ResumeUploadScreen(),
+                            builder: (_) => const ResumeUploadScreen(),
                           ),
                         );
                       },
                     ),
 
                     _buildMenuItem(
-                      context,
-                      Icons.settings_outlined,
-                      'Settings',
-                    ),
+                        context, Icons.settings_outlined, 'Settings'),
+
                     _buildMenuItem(
                       context,
                       Icons.logout,
@@ -116,41 +111,42 @@ class Profilemenu extends StatelessWidget {
                       isLogout: true,
                     ),
 
-                    const SizedBox(height: 30),
+                    SizedBox(height: 30.h),
 
-                    // زرار Go Premium باللون الأخضر
+                    /// Go Premium
                     Container(
                       width: double.infinity,
-                      height: 55,
+                      height: 55.h,
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                           colors: [themeGreen, darkGreen],
                         ),
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(15.r),
                         boxShadow: [
                           BoxShadow(
                             color: themeGreen.withOpacity(0.3),
-                            blurRadius: 10,
-                            offset: const Offset(0, 5),
+                            blurRadius: 10.r,
+                            offset: Offset(0, 5.h),
                           ),
                         ],
                       ),
                       child: ElevatedButton.icon(
                         onPressed: () {},
-                        icon: const Icon(Icons.stars, color: Colors.white),
-                        label: const Text(
+                        icon: Icon(Icons.stars,
+                            color: Colors.white, size: 20.sp),
+                        label: Text(
                           'Go Premium',
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,
                           shadowColor: Colors.transparent,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(15.r),
                           ),
                         ),
                       ),
@@ -160,19 +156,20 @@ class Profilemenu extends StatelessWidget {
               ),
             ),
 
+            /// صورة البروفايل
             Positioned(
-              top: -50,
+              top: -50.h,
               child: Container(
-                width: 100,
-                height: 100,
+                width: 100.w,
+                height: 100.w,
                 decoration: BoxDecoration(
                   color: Colors.grey.shade200,
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 4),
+                  border: Border.all(color: Colors.white, width: 4.w),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10,
+                      blurRadius: 10.r,
                     ),
                   ],
                   image: const DecorationImage(
@@ -183,12 +180,13 @@ class Profilemenu extends StatelessWidget {
               ),
             ),
 
-            // زرار القفل
+            /// زر الإغلاق
             Positioned(
-              top: 15,
-              right: 15,
+              top: 15.h,
+              right: 15.w,
               child: IconButton(
-                icon: const Icon(Icons.close, color: Colors.grey),
+                icon: Icon(Icons.close,
+                    color: Colors.grey, size: 22.sp),
                 onPressed: () => Navigator.pop(context),
               ),
             ),
@@ -198,52 +196,49 @@ class Profilemenu extends StatelessWidget {
     );
   }
 
-  // ويدجت القائمة المعدل ليدعم التنقل والتمييز
   Widget _buildMenuItem(
-    BuildContext context,
-    IconData icon,
-    String title, {
-    bool isLogout = false,
-    bool isAI = false,
-    VoidCallback? onTap,
-  }) {
+      BuildContext context,
+      IconData icon,
+      String title, {
+        bool isLogout = false,
+        bool isAI = false,
+        VoidCallback? onTap,
+      }) {
     return ListTile(
+      contentPadding: EdgeInsets.symmetric(vertical: 4.h),
       leading: Container(
-        padding: const EdgeInsets.all(8),
+        padding: EdgeInsets.all(8.w),
         decoration: BoxDecoration(
           color: isLogout
               ? Colors.red.withOpacity(0.1)
               : (isAI
-                    ? const Color(0xff35CA60).withOpacity(0.1)
-                    : Colors.grey.shade100),
-          borderRadius: BorderRadius.circular(10),
+              ? const Color(0xff35CA60).withOpacity(0.1)
+              : Colors.grey.shade100),
+          borderRadius: BorderRadius.circular(10.r),
         ),
         child: Icon(
           icon,
-          size: 20,
+          size: 20.sp,
           color: isLogout
               ? Colors.red
-              : (isAI ? const Color(0xff35CA60) : Colors.grey.shade700),
+              : (isAI
+              ? const Color(0xff35CA60)
+              : Colors.grey.shade700),
         ),
       ),
       title: Text(
         title,
         style: TextStyle(
-          fontSize: 16,
+          fontSize: 16.sp,
           fontWeight: isAI ? FontWeight.bold : FontWeight.w500,
           color: isLogout ? Colors.red : const Color(0xFF1A1D3D),
         ),
       ),
       trailing: isLogout
           ? null
-          : const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
-      onTap:
-          onTap ??
-          () {
-            if (isAI) {
-              // هنا ممكن تحطي Navigator يفتح شاشة تدريب الـ AI
-            }
-          },
+          : Icon(Icons.arrow_forward_ios,
+          size: 14.sp, color: Colors.grey),
+      onTap: onTap,
     );
   }
 }

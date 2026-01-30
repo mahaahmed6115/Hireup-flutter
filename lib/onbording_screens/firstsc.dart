@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Firstsc extends StatelessWidget {
   const Firstsc({super.key});
@@ -9,14 +10,16 @@ class Firstsc extends StatelessWidget {
       color: const Color(0xFF0B6A4D), // أخضر أغمق وأفخم
       child: Column(
         children: [
-          const SizedBox(height: 80),
+          SizedBox(height: 80.h), // متكيف مع الشاشة
           Expanded(
             flex: 4,
             child: Padding(
-              padding: const EdgeInsets.all(30.0),
+              padding: EdgeInsets.all(30.w), // متكيف
               child: Image.asset(
                 "assets/images/Pic1 1.png",
                 fit: BoxFit.contain,
+                width: double.infinity,
+                height: double.infinity,
               ),
             ),
           ),
@@ -24,34 +27,35 @@ class Firstsc extends StatelessWidget {
             flex: 4,
             child: Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
-              decoration: const BoxDecoration(
+              padding: EdgeInsets.symmetric(
+                  horizontal: 30.w, vertical: 50.h), // متكيف
+              decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(50),
-                  topRight: Radius.circular(50),
+                  topLeft: Radius.circular(50.r),
+                  topRight: Radius.circular(50.r),
                 ),
               ),
               child: Column(
-                children: const [
+                children: [
                   Text(
                     "Your Opportunity\nStarts Now.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 28,
+                      fontSize: 28.sp, // متكيف
                       fontWeight: FontWeight.w900,
-                      color: Color(0xFF1A1D3D),
-                      height: 1.2,
+                      color: const Color(0xFF1A1D3D),
+                      height: 1.5.h,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                   Text(
                     "We believe every individual holds unique skills. Find the job that truly fits your abilities.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.grey,
-                      fontSize: 16,
-                      height: 1.6,
+                      fontSize: 16.sp, // متكيف
+                      height: 1.6.h,
                     ),
                   ),
                 ],

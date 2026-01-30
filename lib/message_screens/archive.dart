@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// تأكدي من استيراد الملف الذي يحتوي على القوائم العامة (Global Lists)
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hireup/message_screens/messagescreen.dart';
 
 class ArchiveScreen extends StatefulWidget {
@@ -17,45 +17,44 @@ class _ArchiveScreenState extends State<ArchiveScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.5,
-        centerTitle: false, // جعل العنوان من جهة اليسار لشكل أكثر عصرية
+        centerTitle: false,
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back_ios,
-            color: Color(0xFF1A1D3D),
-            size: 20,
+            color: const Color(0xFF1A1D3D),
+            size: 20.w,
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title: Text(
           'Archive',
           style: TextStyle(
-            color: Color(0xFF1A1D3D),
+            color: const Color(0xFF1A1D3D),
             fontWeight: FontWeight.bold,
-            fontSize: 22, // تكبير العنوان قليلاً
+            fontSize: 22.sp,
           ),
         ),
       ),
       body: archiveList.isEmpty
           ? _buildEnhancedEmptyState()
           : ListView.builder(
-              physics: const BouncingScrollPhysics(), // حركة سحب مرنة
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-              itemCount: archiveList.length,
-              itemBuilder: (context, index) {
-                final msg = archiveList[index];
-                return _buildDismissibleArchiveTile(msg, index);
-              },
-            ),
+        physics: const BouncingScrollPhysics(),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+        itemCount: archiveList.length,
+        itemBuilder: (context, index) {
+          final msg = archiveList[index];
+          return _buildDismissibleArchiveTile(msg, index);
+        },
+      ),
     );
   }
 
   Widget _buildDismissibleArchiveTile(Map<String, dynamic> msg, int index) {
     return Dismissible(
       key: UniqueKey(),
-      direction: DismissDirection.startToEnd, // السحب من الشمال لليمين للإعادة
+      direction: DismissDirection.startToEnd,
       onDismissed: (direction) {
         setState(() {
-          // اللوجيك الذكي للرجوع للمكان الصح بناءً على نوع الرسالة
           if (msg['isCompany'] == true) {
             companyMessages.add(msg);
           } else {
@@ -64,7 +63,6 @@ class _ArchiveScreenState extends State<ArchiveScreen> {
           archiveList.removeAt(index);
         });
 
-        // تحسين: سناب بار طائر (Floating SnackBar)
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -73,32 +71,31 @@ class _ArchiveScreenState extends State<ArchiveScreen> {
             ),
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10.r),
             ),
             backgroundColor: const Color(0xFF1A1D3D),
           ),
         );
       },
-      // تحسين: شكل الخلفية أثناء السحب مع نص توضيحي
       background: Container(
-        margin: const EdgeInsets.only(bottom: 12),
+        margin: EdgeInsets.only(bottom: 12.h),
         decoration: BoxDecoration(
-          color: const Color(0xFF5E8D5E), // استخدام لون تطبيقك الأخضر للإعادة
-          borderRadius: BorderRadius.circular(16),
+          color: const Color(0xFF5E8D5E),
+          borderRadius: BorderRadius.circular(16.r),
         ),
         alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.only(left: 25),
+        padding: EdgeInsets.only(left: 25.w),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Icon(Icons.unarchive_outlined, color: Colors.white, size: 28),
-            SizedBox(height: 4),
+          children: [
+            Icon(Icons.unarchive_outlined, color: Colors.white, size: 28.sp),
+            SizedBox(height: 4.h),
             Text(
               "Restore",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 10,
+                fontSize: 10.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -111,62 +108,60 @@ class _ArchiveScreenState extends State<ArchiveScreen> {
 
   Widget _buildArchiveTileLayout(Map<String, dynamic> msg) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin: EdgeInsets.only(bottom: 12.h),
+      padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04), // زيادة الظل قليلاً للعمق
-            blurRadius: 10,
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10.r,
             offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Row(
         children: [
-          // تحسين: إضافة حواف دائرية أنيقة للصورة
           Container(
-            width: 58,
-            height: 58,
+            width: 58.w,
+            height: 58.w,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(14.r),
               image: DecorationImage(
                 image: AssetImage(msg['img']),
                 fit: BoxFit.cover,
               ),
-              border: Border.all(color: Colors.grey.shade100), // إطار خفيف جداً
+              border: Border.all(color: Colors.grey.shade100),
             ),
           ),
-          const SizedBox(width: 15),
+          SizedBox(width: 15.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   msg['name'],
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Color(0xFF1A1D3D),
+                    fontSize: 16.sp,
+                    color: const Color(0xFF1A1D3D),
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4.h),
                 Text(
                   msg['sub'],
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 13.sp),
                 ),
               ],
             ),
           ),
-          // تحسين: أيقونة الأرشيف بلون هادئ
           Icon(
             Icons.inventory_2_outlined,
             color: Colors.grey.shade400,
-            size: 22,
+            size: 22.sp,
           ),
         ],
       ),
@@ -178,32 +173,31 @@ class _ArchiveScreenState extends State<ArchiveScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // تحسين: حاوية للأيقونة لجعلها تبدو كـ Illustration بسيط
           Container(
-            padding: const EdgeInsets.all(30),
+            padding: EdgeInsets.all(30.w),
             decoration: BoxDecoration(
               color: Colors.grey.withOpacity(0.05),
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.archive_outlined,
-              size: 80,
+              size: 80.sp,
               color: Colors.grey.shade300,
             ),
           ),
-          const SizedBox(height: 20),
-          const Text(
+          SizedBox(height: 20.h),
+          Text(
             'Your archive is empty',
             style: TextStyle(
-              color: Color(0xFF1A1D3D),
-              fontSize: 18,
+              color: const Color(0xFF1A1D3D),
+              fontSize: 18.sp,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 8),
-          const Text(
+          SizedBox(height: 8.h),
+          Text(
             'Messages you archive will appear here.',
-            style: TextStyle(color: Colors.grey, fontSize: 14),
+            style: TextStyle(color: Colors.grey, fontSize: 14.sp),
           ),
         ],
       ),

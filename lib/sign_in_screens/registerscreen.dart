@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hireup/sign_in_screens/login.dart';
 
 class Registerscreen extends StatelessWidget {
@@ -8,12 +9,14 @@ class Registerscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "Create Account",
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Color(0xFF1A1D3D),
+            color: const Color(0xFF1A1D3D),
+            fontSize: 20.sp,
           ),
         ),
         backgroundColor: Colors.white,
@@ -21,102 +24,114 @@ class Registerscreen extends StatelessWidget {
         iconTheme: const IconThemeData(color: Colors.black),
         centerTitle: true,
       ),
+
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+          padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 10.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // صورة الأرت (Illustration) بمقاس متناسق
+              /// Illustration
               Image.asset(
                 "assets/images/Mobile login-bro.png",
-                height: 220,
+                height: 0.25.sh,
                 fit: BoxFit.contain,
               ),
-              const SizedBox(height: 20),
 
-              // حقول البيانات باستخدام ويدجت موحدة للشياكة
+              SizedBox(height: 20.h),
+
               _buildRegisterField(
                 hint: "First Name",
                 icon: Icons.person_outline,
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.h),
+
               _buildRegisterField(
                 hint: "Last Name",
                 icon: Icons.person_outline,
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.h),
+
               _buildRegisterField(
                 hint: "Email Address",
                 icon: Icons.email_outlined,
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.h),
+
               _buildRegisterField(
                 hint: "Password",
                 icon: Icons.lock_outline,
                 isPassword: true,
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.h),
+
               _buildRegisterField(
                 hint: "Confirm Password",
                 icon: Icons.lock_reset_outlined,
                 isPassword: true,
               ),
 
-              const SizedBox(height: 30),
+              SizedBox(height: 30.h),
 
-              // زرار الـ Register العريض
+              /// Register Button
               SizedBox(
-                height: 55,
+                height: 55.h,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff43B343),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(15.r),
                     ),
                     elevation: 5,
                     shadowColor: Colors.green.withOpacity(0.3),
                   ),
                   onPressed: () {},
-                  child: const Text(
+                  child: Text(
                     "Register",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: 18.sp,
                     ),
                   ),
                 ),
               ),
 
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
 
-              // جملة العودة للـ Login
+              /// Back to Login
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     "Already Have Account?",
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14.sp,
+                    ),
                   ),
                   TextButton(
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => const Login()),
+                        MaterialPageRoute(
+                          builder: (_) => const Login(),
+                        ),
                       );
                     },
-                    child: const Text(
+                    child: Text(
                       "Login",
                       style: TextStyle(
-                        color: Color(0xff43B343),
+                        color: const Color(0xff43B343),
                         fontWeight: FontWeight.bold,
+                        fontSize: 14.sp,
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+
+              SizedBox(height: 20.h),
             ],
           ),
         ),
@@ -124,7 +139,7 @@ class Registerscreen extends StatelessWidget {
     );
   }
 
-  // ويدجت مساعدة عشان الكود يكون Clean ومنظم
+  /// Reusable TextField
   Widget _buildRegisterField({
     required String hint,
     required IconData icon,
@@ -134,20 +149,28 @@ class Registerscreen extends StatelessWidget {
       obscureText: isPassword,
       decoration: InputDecoration(
         hintText: hint,
-        prefixIcon: Icon(icon, color: const Color(0xff43B343)),
+        hintStyle: TextStyle(fontSize: 15.sp),
+        prefixIcon: Icon(
+          icon,
+          color: const Color(0xff43B343),
+          size: 22.sp,
+        ),
         filled: true,
         fillColor: Colors.grey[100],
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15.r),
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(color: Color(0xff43B343), width: 1.5),
+          borderRadius: BorderRadius.circular(15.r),
+          borderSide: const BorderSide(
+            color: Color(0xff43B343),
+            width: 1.5,
+          ),
         ),
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 18,
-          horizontal: 20,
+        contentPadding: EdgeInsets.symmetric(
+          vertical: 18.h,
+          horizontal: 20.w,
         ),
       ),
     );

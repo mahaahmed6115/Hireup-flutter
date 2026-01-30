@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hireup/jop_details/success_screen.dart';
 
 class ApplyJobScreen extends StatefulWidget {
@@ -28,6 +29,7 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
       setState(() {
         _uploadedFileName = result.files.single.name;
       });
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Selected: $_uploadedFileName'),
@@ -46,68 +48,65 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: darkBlue, size: 22),
+          icon: Icon(Icons.arrow_back_ios_new,
+              color: darkBlue, size: 22.sp),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title: Text(
           'Apply',
           style: TextStyle(
             color: darkBlue,
             fontWeight: FontWeight.bold,
-            fontSize: 20,
+            fontSize: 20.sp,
           ),
         ),
         centerTitle: true,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 25),
+          padding: EdgeInsets.symmetric(horizontal: 25.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
+
               _buildJobSummary(darkBlue),
-              const SizedBox(height: 20),
 
-              const Text(
-                'Select a profile',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 17,
-                  color: darkBlue,
+              SizedBox(height: 25.h),
+
+              _sectionTitle('Select a profile', darkBlue),
+              SizedBox(height: 12.h),
+
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    _buildProfileCard(darkBlue),
+                  ],
                 ),
               ),
-              const SizedBox(height: 10),
-              _buildProfileCard(darkBlue),
 
-              const SizedBox(height: 20),
+              SizedBox(height: 25.h),
 
-              const Text(
-                'Select a resume',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 17,
-                  color: darkBlue,
-                ),
-              ),
-              const SizedBox(height: 10),
+              _sectionTitle('Select a resume', darkBlue),
+              SizedBox(height: 12.h),
+
               _buildResumeCard(darkBlue),
 
-              const SizedBox(height: 20),
+              SizedBox(height: 25.h),
 
               RichText(
-                text: const TextSpan(
+                text: TextSpan(
                   style: TextStyle(
                     color: darkBlue,
-                    fontSize: 17,
+                    fontSize: 17.sp,
                     fontWeight: FontWeight.bold,
                   ),
-                  children: [
+                  children: const [
                     TextSpan(text: 'Cover Letter '),
                     TextSpan(
                       text: '(Optional)',
@@ -120,49 +119,52 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
                   ],
                 ),
               ),
-              const SizedBox(height: 10),
+
+              SizedBox(height: 12.h),
+
               _buildCoverLetterInput(textDark),
 
-              const SizedBox(height: 25),
+              SizedBox(height: 30.h),
 
               SizedBox(
                 width: double.infinity,
-                height: 58,
+                height: 58.h,
                 child: ElevatedButton(
                   onPressed: isReadyToApply
                       ? () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SuccessScreen(
-                                companyName: 'Facebook',
-                                jobRole: widget.job['role'],
-                              ),
-                            ),
-                          );
-                        }
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => SuccessScreen(
+                          companyName: 'Facebook',
+                          jobRole: widget.job['role'],
+                        ),
+                      ),
+                    );
+                  }
                       : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isReadyToApply
                         ? primaryGreen
                         : Colors.grey[300],
-                    disabledBackgroundColor: Colors.grey[300],
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
                     elevation: isReadyToApply ? 3 : 0,
                   ),
                   child: Text(
                     'Apply Now',
                     style: TextStyle(
-                      color: isReadyToApply ? Colors.white : Colors.grey[600],
-                      fontSize: 19,
+                      fontSize: 19.sp,
                       fontWeight: FontWeight.bold,
+                      color:
+                      isReadyToApply ? Colors.white : Colors.grey[600],
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+
+              SizedBox(height: 20.h),
             ],
           ),
         ),
@@ -170,21 +172,32 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
     );
   }
 
+  Widget _sectionTitle(String text, Color color) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 17.sp,
+        color: color,
+      ),
+    );
+  }
+
   Widget _buildJobSummary(Color darkBlue) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
         color: Colors.grey[50],
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(15.r),
         border: Border.all(color: Colors.grey.shade200),
       ),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.w),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             child: const Icon(
               Icons.facebook,
@@ -192,7 +205,7 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
               color: Color(0xFF1877F2),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,17 +214,13 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
                   widget.job['role'],
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 17,
+                    fontSize: 16.sp,
                     color: darkBlue,
                   ),
                 ),
                 const Text(
                   'Facebook',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: TextStyle(color: Colors.grey, fontSize: 13),
                 ),
               ],
             ),
@@ -221,15 +230,15 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
             children: [
               Text(
                 widget.job['salary'],
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF5E8D5E),
-                  fontSize: 15,
+                  fontSize: 14.sp,
+                  color: const Color(0xFF5E8D5E),
                 ),
               ),
               Text(
                 widget.job['location'],
-                style: const TextStyle(color: Colors.grey, fontSize: 11),
+                style: TextStyle(fontSize: 11.sp, color: Colors.grey),
               ),
             ],
           ),
@@ -242,52 +251,49 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
     return GestureDetector(
       onTap: () => setState(() => isProfileSelected = !isProfileSelected),
       child: Container(
-        width: 160,
-        padding: const EdgeInsets.all(15), // تقليل المسافات الداخلية
+        width: 160.w,
+        padding: EdgeInsets.all(15.w),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           border: Border.all(
             color: isProfileSelected ? Colors.blue : Colors.grey.shade300,
-            width: 2.0,
+            width: 2,
           ),
         ),
         child: Column(
           children: [
             Stack(
               children: [
-                const CircleAvatar(
-                  radius: 35,
-                  backgroundImage: AssetImage('assets/images/Ellipse.png'),
+                CircleAvatar(
+                  radius: 35.r,
+                  backgroundImage:
+                  const AssetImage('assets/images/Ellipse.png'),
                 ),
                 if (isProfileSelected)
-                  const Positioned(
+                  Positioned(
                     right: 0,
                     top: 0,
                     child: CircleAvatar(
-                      radius: 10,
+                      radius: 10.r,
                       backgroundColor: Colors.blue,
-                      child: Icon(Icons.check, size: 12, color: Colors.white),
+                      child:
+                      const Icon(Icons.check, size: 12, color: Colors.white),
                     ),
                   ),
               ],
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             Text(
               'Haley Jessica',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15,
+                fontSize: 15.sp,
                 color: darkBlue,
               ),
             ),
-            const Text(
+            Text(
               'UX Designer',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(fontSize: 12.sp, color: Colors.grey),
             ),
           ],
         ),
@@ -299,13 +305,11 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
     return GestureDetector(
       onTap: () => setState(() => isResumeSelected = !isResumeSelected),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        padding: EdgeInsets.all(15.w),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
             color: isResumeSelected ? Colors.blue : Colors.grey.shade300,
-            width: 1.5,
           ),
         ),
         child: Row(
@@ -315,30 +319,13 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
                   ? Icons.check_circle
                   : Icons.radio_button_unchecked,
               color: isResumeSelected ? Colors.blue : Colors.grey,
-              size: 24,
             ),
-            const SizedBox(width: 12),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.green.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: const Text(
-                'Resume.pdf',
-                style: TextStyle(
-                  color: Colors.green,
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            const SizedBox(width: 10),
+            SizedBox(width: 12.w),
             Text(
-              'Haley Jessica CV',
+              'Resume.pdf',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 14,
+                fontSize: 14.sp,
                 color: darkBlue,
               ),
             ),
@@ -350,73 +337,48 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
 
   Widget _buildCoverLetterInput(Color textDark) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: Container(
-            height: 110,
-            padding: const EdgeInsets.all(12),
+            height: 110.h,
+            padding: EdgeInsets.all(12.w),
             decoration: BoxDecoration(
-              color: Colors.grey[50],
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(15.r),
               border: Border.all(color: Colors.grey.shade300),
             ),
             child: TextField(
               maxLines: null,
-              style: TextStyle(color: textDark, fontSize: 15),
+              style: TextStyle(fontSize: 15.sp, color: textDark),
               decoration: const InputDecoration(
                 hintText: 'Tell us why you are a good fit...',
-                hintStyle: TextStyle(
-                  color: Color(0xFF888888),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
                 border: InputBorder.none,
               ),
             ),
           ),
         ),
-        const SizedBox(width: 10),
+        SizedBox(width: 10.w),
         GestureDetector(
           onTap: _pickPDF,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            width: 75,
-            height: 110,
+          child: Container(
+            width: 75.w,
+            height: 110.h,
             decoration: BoxDecoration(
-              color: _uploadedFileName != null
-                  ? const Color(0xFFE8F5E9)
-                  : Colors.blue.withOpacity(0.05),
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(
-                color: _uploadedFileName != null
-                    ? const Color(0xFF5E8D5E)
-                    : Colors.blue.withOpacity(0.2),
-                width: 1.2,
-              ),
+              borderRadius: BorderRadius.circular(15.r),
+              border: Border.all(color: Colors.blue.withOpacity(0.3)),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  _uploadedFileName != null
-                      ? Icons.check_circle
-                      : Icons.cloud_upload_outlined,
-                  color: _uploadedFileName != null
-                      ? const Color(0xFF5E8D5E)
-                      : Colors.blue,
-                  size: 30,
-                ),
-                const SizedBox(height: 5),
+                Icon(Icons.cloud_upload_outlined,
+                    color: Colors.blue, size: 30.sp),
+                SizedBox(height: 5.h),
                 Text(
-                  _uploadedFileName != null ? 'Ready' : 'Upload\nPDF',
+                  'Upload\nPDF',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 11,
-                    color: _uploadedFileName != null
-                        ? const Color(0xFF5E8D5E)
-                        : Colors.blue,
+                    fontSize: 11.sp,
                     fontWeight: FontWeight.bold,
+                    color: Colors.blue,
                   ),
                 ),
               ],

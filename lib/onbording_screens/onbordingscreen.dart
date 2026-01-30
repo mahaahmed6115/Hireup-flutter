@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hireup/onbording_screens/firstsc.dart';
 import 'package:hireup/onbording_screens/secondsc.dart';
 import 'package:hireup/onbording_screens/thirdsc.dart';
@@ -22,45 +23,49 @@ class OnbordingscreenState extends State<Onbordingscreen> {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // 1. الصفحات الأساسية
+          /// الصفحات
           PageView(
             controller: _pageController,
             onPageChanged: (index) => setState(() => _currentIndex = index),
             children: const [Firstsc(), Secondsc(), Thirdsc()],
           ),
 
-          // 2. زرار الـ Skip (بيظهر في أول صفحتين بس)
+          /// زر Skip
           if (_currentIndex < 2)
             Positioned(
-              top: 50,
-              right: 20,
+              top: 50.h,
+              right: 20.w,
               child: TextButton(
                 onPressed: () => _pageController.jumpToPage(2),
-                child: const Text(
+                child: Text(
                   "Skip",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                  ),
                 ),
               ),
             ),
 
-          // 3. الجزء السفلي (النقط والزراير)
+          /// الجزء السفلي
           Positioned(
-            bottom: 40,
-            left: 30,
-            right: 30,
+            bottom: 40.h,
+            left: 30.w,
+            right: 30.w,
             child: Column(
               children: [
-                // النقط التفاعلية (Expanding Dots)
+                /// Dots
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
                     _totalPages,
-                    (index) => _buildDot(index),
+                        (index) => _buildDot(index),
                   ),
                 ),
-                const SizedBox(height: 40),
 
-                // الزرار الديناميكي المعدل باللونين
+                SizedBox(height: 40.h),
+
+                /// Button
                 _buildMainButton(),
               ],
             ),
@@ -73,40 +78,38 @@ class OnbordingscreenState extends State<Onbordingscreen> {
   Widget _buildDot(int index) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      margin: const EdgeInsets.symmetric(horizontal: 4),
-      height: 8,
-      width: _currentIndex == index ? 24 : 8,
+      margin: EdgeInsets.symmetric(horizontal: 4.w),
+      height: 8.h,
+      width: _currentIndex == index ? 24.w : 8.w,
       decoration: BoxDecoration(
         color: _currentIndex == index
             ? const Color(0xff35CA60)
             : Colors.grey.shade300,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(10.r),
       ),
     );
   }
 
   Widget _buildMainButton() {
     bool isLastPage = _currentIndex == _totalPages - 1;
+
     return SizedBox(
       width: double.infinity,
-      height: 60,
+      height: 60.h,
       child: Container(
-        // إضافة التدرج اللوني (Gradient) للزرار
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             colors: [
-              Color(0xff35CA60), // الأخضر الفاتح
-              Color(0xFF0B6A4D), // الأخضر الغامق
+              Color(0xff35CA60),
+              Color(0xFF0B6A4D),
             ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
               color: const Color(0xff35CA60).withOpacity(0.4),
-              blurRadius: 12,
-              offset: const Offset(0, 6),
+              blurRadius: 12.r,
+              offset: Offset(0, 6.h),
             ),
           ],
         ),
@@ -115,7 +118,7 @@ class OnbordingscreenState extends State<Onbordingscreen> {
             if (isLastPage) {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (c) => const Login()),
+                MaterialPageRoute(builder: (_) => const Login()),
               );
             } else {
               _pageController.nextPage(
@@ -125,19 +128,19 @@ class OnbordingscreenState extends State<Onbordingscreen> {
             }
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.transparent, // شفاف ليظهر الـ Gradient
-            shadowColor: Colors.transparent, // إخفاء ظل الزرار الافتراضي
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
             ),
           ),
           child: Text(
             isLastPage ? "GET STARTED" : "NEXT",
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.white,
-              fontSize: 18,
+              fontSize: 18.sp,
               fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
+              letterSpacing: 1.2.w,
             ),
           ),
         ),

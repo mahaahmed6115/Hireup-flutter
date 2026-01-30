@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hireup/Notifcations.dart';
-
 import 'package:hireup/jop_details/jopdetails.dart';
 import 'package:hireup/message_screens/messagescreen.dart';
 import 'package:hireup/profile_menu/ProfileMenu.dart';
 import 'package:hireup/saved.dart';
 
-// القائمة العامة لضمان التزامن بين الصفحات
 List<Map<String, dynamic>> savedJobs = [];
 
 class Homepage extends StatefulWidget {
@@ -19,12 +18,11 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   int _currentIndex = 0;
 
-  // دالة لتغيير حالة الحفظ فوراً مع إظهار رسالة
   void _toggleSaveJob(Map<String, dynamic> jobData) {
     setState(() {
       int index = savedJobs.indexWhere(
-        (job) =>
-            job['company'] == jobData['company'] &&
+            (job) =>
+        job['company'] == jobData['company'] &&
             job['role'] == jobData['role'],
       );
 
@@ -46,7 +44,7 @@ class _HomepageState extends State<Homepage> {
         duration: const Duration(milliseconds: 800),
         behavior: SnackBarBehavior.floating,
         backgroundColor: const Color(0xFF1A1D3D),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
       ),
     );
   }
@@ -75,10 +73,7 @@ class _HomepageState extends State<Homepage> {
           BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.mail_outline), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.bookmark_border), label: ''),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_none_outlined),
-            label: '',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.notifications_none_outlined), label: ''),
         ],
       ),
     );
@@ -87,21 +82,21 @@ class _HomepageState extends State<Homepage> {
   Widget _buildHomeScreenContent() {
     return SafeArea(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             _buildHeader(),
-            const SizedBox(height: 25),
+            SizedBox(height: 25.h),
             _buildSearchRow(),
-            const SizedBox(height: 30),
+            SizedBox(height: 30.h),
             _buildSectionHeader('Featured Jobs'),
-            const SizedBox(height: 15),
+            SizedBox(height: 15.h),
             _buildFeaturedList(),
-            const SizedBox(height: 30),
+            SizedBox(height: 30.h),
             _buildSectionHeader('Popular Jobs'),
-            const SizedBox(height: 15),
+            SizedBox(height: 15.h),
             _buildPopularJobTile(
               'Jr Executive',
               'Burger King',
@@ -126,17 +121,17 @@ class _HomepageState extends State<Homepage> {
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text(
               'Welcome to HireUP!',
-              style: TextStyle(color: Colors.grey, fontSize: 14),
+              style: TextStyle(color: Colors.grey, fontSize: 14.sp),
             ),
             Text(
               'Discover Jobs',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 24.sp,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF1A1D3D),
+                color: const Color(0xFF1A1D3D),
               ),
             ),
           ],
@@ -144,9 +139,9 @@ class _HomepageState extends State<Homepage> {
         GestureDetector(
           onTap: () =>
               showDialog(context: context, builder: (c) => const Profilemenu()),
-          child: const CircleAvatar(
-            radius: 25,
-            backgroundImage: AssetImage('assets/images/Ellipse.png'),
+          child: CircleAvatar(
+            radius: 25.r,
+            backgroundImage: const AssetImage('assets/images/Ellipse.png'),
           ),
         ),
       ],
@@ -158,10 +153,10 @@ class _HomepageState extends State<Homepage> {
       children: [
         Expanded(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: EdgeInsets.symmetric(horizontal: 15.w),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
               border: Border.all(color: Colors.grey.shade200),
             ),
             child: const TextField(
@@ -173,12 +168,12 @@ class _HomepageState extends State<Homepage> {
             ),
           ),
         ),
-        const SizedBox(width: 15),
+        SizedBox(width: 15.w),
         Container(
-          padding: const EdgeInsets.all(12),
+          padding: EdgeInsets.all(12.w),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
             border: Border.all(color: Colors.grey.shade200),
           ),
           child: const Icon(Icons.tune, color: Color(0xFF5E8D5E)),
@@ -193,16 +188,16 @@ class _HomepageState extends State<Homepage> {
       children: [
         Text(
           title,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
         ),
-        const Text('See all', style: TextStyle(color: Colors.grey)),
+        Text('See all', style: TextStyle(color: Colors.grey, fontSize: 14.sp)),
       ],
     );
   }
 
   Widget _buildFeaturedList() {
     return SizedBox(
-      height: 180,
+      height: 180.h,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
@@ -236,7 +231,7 @@ class _HomepageState extends State<Homepage> {
     required IconData logo,
   }) {
     bool isSaved = savedJobs.any(
-      (j) => j['company'] == company && j['role'] == role,
+          (j) => j['company'] == company && j['role'] == role,
     );
 
     return GestureDetector(
@@ -258,12 +253,12 @@ class _HomepageState extends State<Homepage> {
         );
       },
       child: Container(
-        width: 280,
-        margin: const EdgeInsets.only(right: 15),
-        padding: const EdgeInsets.all(20),
+        width: 280.w,
+        margin: EdgeInsets.only(right: 15.w),
+        padding: EdgeInsets.all(20.w),
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -271,28 +266,28 @@ class _HomepageState extends State<Homepage> {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(8.w),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
-                  child: Icon(logo, color: Colors.blue),
+                  child: Icon(logo, color: Colors.blue, size: 20.sp),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       role,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                       ),
                     ),
                     Text(
                       company,
-                      style: TextStyle(color: Colors.white.withOpacity(0.8)),
+                      style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 12.sp),
                     ),
                   ],
                 ),
@@ -311,7 +306,7 @@ class _HomepageState extends State<Homepage> {
                   child: Icon(
                     isSaved ? Icons.bookmark : Icons.bookmark_add_outlined,
                     color: isSaved ? Colors.yellow : Colors.white,
-                    size: 26,
+                    size: 26.sp,
                   ),
                 ),
               ],
@@ -324,20 +319,21 @@ class _HomepageState extends State<Homepage> {
                 _buildTag('Junior'),
               ],
             ),
-            const SizedBox(height: 15),
+            SizedBox(height: 15.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   salary,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
+                    fontSize: 14.sp,
                   ),
                 ),
                 Text(
                   location,
-                  style: const TextStyle(color: Colors.white, fontSize: 12),
+                  style: TextStyle(color: Colors.white, fontSize: 12.sp),
                 ),
               ],
             ),
@@ -349,25 +345,20 @@ class _HomepageState extends State<Homepage> {
 
   Widget _buildTag(String label) {
     return Container(
-      margin: const EdgeInsets.only(right: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      margin: EdgeInsets.only(right: 8.w),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.2),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(8.r),
       ),
       child: Text(
         label,
-        style: const TextStyle(color: Colors.white, fontSize: 10),
+        style: TextStyle(color: Colors.white, fontSize: 10.sp),
       ),
     );
   }
 
-  Widget _buildPopularJobTile(
-    String title,
-    String company,
-    String salary,
-    String loc,
-  ) {
+  Widget _buildPopularJobTile(String title, String company, String salary, String loc) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -387,38 +378,38 @@ class _HomepageState extends State<Homepage> {
         );
       },
       child: Container(
-        margin: const EdgeInsets.only(bottom: 15),
-        padding: const EdgeInsets.all(15),
+        margin: EdgeInsets.only(bottom: 15.h),
+        padding: EdgeInsets.all(15.w),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
         ),
         child: Row(
           children: [
             Container(
-              height: 50,
-              width: 50,
+              height: 50.h,
+              width: 50.w,
               decoration: BoxDecoration(
                 color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               child: const Icon(Icons.business, color: Colors.orange),
             ),
-            const SizedBox(width: 15),
+            SizedBox(width: 15.w),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 16.sp,
                     ),
                   ),
                   Text(
                     company,
-                    style: const TextStyle(color: Colors.grey, fontSize: 13),
+                    style: TextStyle(color: Colors.grey, fontSize: 13.sp),
                   ),
                 ],
               ),
@@ -428,11 +419,11 @@ class _HomepageState extends State<Homepage> {
               children: [
                 Text(
                   salary,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
                 ),
                 Text(
                   loc,
-                  style: const TextStyle(color: Colors.grey, fontSize: 11),
+                  style: TextStyle(color: Colors.grey, fontSize: 11.sp),
                 ),
               ],
             ),
