@@ -1,3 +1,14 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // ده السطر اللي بيعرف Gradle يجيب ملفات الكوتلن منين
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10")
+    }
+}
+
 allprojects {
     repositories {
         google()
@@ -15,6 +26,7 @@ subprojects {
     val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
+
 subprojects {
     project.evaluationDependsOn(":app")
 }

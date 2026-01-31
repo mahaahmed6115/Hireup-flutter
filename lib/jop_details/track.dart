@@ -121,7 +121,6 @@ class TrackingScreen extends StatelessWidget {
             ),
             const SizedBox(height: 25),
 
-            // الـ 7 خطوات كاملة زي الصورة
             _buildTimelineStep('Offer letter', 'Not yet', false, false, true),
             _buildTimelineStep(
               'Team matching',

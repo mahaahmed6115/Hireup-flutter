@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+
+import 'package:hireup/profile_menu/applications.dart';
+import 'package:hireup/profile_menu/firstaiscreen.dart';
+import 'package:hireup/profile_menu/personal.dart' show PersonalInfoScreen;
+import 'package:hireup/profile_menu/proposl.dart' show ProposalsScreen;
 import 'package:hireup/profile_menu/resume.dart';
+import 'package:hireup/profile_menu/setting.dart';
 // تأكدي إن المسار صح حسب مكان ملفك
 
 class Profilemenu extends StatelessWidget {
@@ -67,25 +73,60 @@ class Profilemenu extends StatelessWidget {
                       context,
                       Icons.person_outline,
                       'Personal Info',
+                      onTap: () {
+                        Navigator.pop(context); // قفل المنيو
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PersonalInfoScreen(),
+                          ),
+                        );
+                      },
                     ),
-
                     // --- إضافة أيقونة تدريب الـ AI الجديدة هنا (بناءً على فكرة مشروعك) ---
                     _buildMenuItem(
                       context,
                       Icons.psychology_outlined,
                       'AI Interview Trainer',
                       isAI: true,
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SplashScreen(),
+                          ),
+                        );
+                      },
                     ),
 
                     _buildMenuItem(
                       context,
                       Icons.assignment_outlined,
                       'Applications',
+                      onTap: () {
+                        Navigator.pop(context); // قفل المنيو
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ApplicationsScreen(),
+                          ),
+                        );
+                      },
                     ),
                     _buildMenuItem(
                       context,
                       Icons.description_outlined,
                       'Proposals',
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ProposalsScreen(),
+                          ),
+                        );
+                      },
                     ),
 
                     // تعديل زر Resumes لينتقل لصفحة الرفع الجديدة
@@ -108,6 +149,15 @@ class Profilemenu extends StatelessWidget {
                       context,
                       Icons.settings_outlined,
                       'Settings',
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SettingsScreen(),
+                          ),
+                        );
+                      },
                     ),
                     _buildMenuItem(
                       context,
