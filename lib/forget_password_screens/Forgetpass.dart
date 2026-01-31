@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hireup/forget_password_screens/OtpVerificationScreen.dart';
 
-class Forgetpass extends StatelessWidget {
+class Forgetpass extends StatefulWidget {
   const Forgetpass({super.key});
 
+  @override
+  State<Forgetpass> createState() => _ForgetpassState();
+}
+
+class _ForgetpassState extends State<Forgetpass> {
   final Color primaryColor = const Color(0xff43B343);
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -69,36 +76,51 @@ class Forgetpass extends StatelessWidget {
 
               SizedBox(height: 12.h),
 
-              /// Email Field
-              TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                style: TextStyle(fontSize: 16.sp),
-                decoration: InputDecoration(
-                  hintText: "example@email.com",
-                  hintStyle: TextStyle(
-                    color: Colors.grey.shade400,
-                    fontSize: 14.sp,
-                  ),
-                  prefixIcon: Icon(
-                    Icons.email_outlined,
-                    color: primaryColor,
-                    size: 22.sp,
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey[100],
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: 18.h,
-                    horizontal: 20.w,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.r),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.r),
-                    borderSide: BorderSide(
+              /// Form
+              Form(
+                key: _formKey,
+                child: TextFormField(
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  style: TextStyle(fontSize: 16.sp),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Email cannot be empty";
+                    }
+                    final emailRegex = RegExp(
+                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+                    if (!emailRegex.hasMatch(value)) {
+                      return "Enter a valid email";
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: "example@email.com",
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontSize: 14.sp,
+                    ),
+                    prefixIcon: Icon(
+                      Icons.email_outlined,
                       color: primaryColor,
-                      width: 1.5,
+                      size: 22.sp,
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[100],
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 18.h,
+                      horizontal: 20.w,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.r),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.r),
+                      borderSide: BorderSide(
+                        color: primaryColor,
+                        width: 1.5,
+                      ),
                     ),
                   ),
                 ),
@@ -112,12 +134,14 @@ class Forgetpass extends StatelessWidget {
                 height: 55.h,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const OtpVerificationScreen(),
-                      ),
-                    );
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const OtpVerificationScreen(),
+                        ),
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: primaryColor,

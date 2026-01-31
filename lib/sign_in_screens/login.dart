@@ -13,6 +13,9 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool _isObscure = true;
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -56,166 +59,193 @@ class _LoginState extends State<Login> {
                 SizedBox(height: 40.h),
 
                 /// Form
-                Column(
-                  children: [
-                    _buildTextField(
-                      hint: "Email Address",
-                      icon: Icons.email_outlined,
-                    ),
-
-                    SizedBox(height: 20.h),
-
-                    _buildTextField(
-                      hint: "Password",
-                      icon: Icons.lock_outline,
-                      isPassword: true,
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _isObscure
-                              ? Icons.visibility_off_outlined
-                              : Icons.visibility_outlined,
-                          color: Colors.grey,
-                          size: 22.sp,
-                        ),
-                        onPressed: () {
-                          setState(() => _isObscure = !_isObscure);
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      _buildTextField(
+                        controller: _emailController,
+                        hint: "Email Address",
+                        icon: Icons.email_outlined,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Email cannot be empty";
+                          }
+                          final emailRegex = RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+                          if (!emailRegex.hasMatch(value)) {
+                            return "Enter a valid email";
+                          }
+                          return null;
                         },
                       ),
-                    ),
 
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const Forgetpass(),
-                            ),
-                          );
+                      SizedBox(height: 20.h),
+
+                      _buildTextField(
+                        controller: _passwordController,
+                        hint: "Password",
+                        icon: Icons.lock_outline,
+                        isPassword: true,
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _isObscure
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined,
+                            color: Colors.grey,
+                            size: 22.sp,
+                          ),
+                          onPressed: () {
+                            setState(() => _isObscure = !_isObscure);
+                          },
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Password cannot be empty";
+                          }
+                          if (value.length < 6) {
+                            return "Password must be at least 6 characters";
+                          }
+                          return null;
                         },
-                        child: Text(
-                          "Forgot Password?",
-                          style: TextStyle(
-                            color: const Color(0xff43B343),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14.sp,
-                          ),
-                        ),
                       ),
-                    ),
 
-                    SizedBox(height: 30.h),
-
-                    /// Login Button
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) =>  FirstJobType(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 55.h,
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [
-                              Color(0xff56C556),
-                              Color(0xff329232),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.circular(15.r),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.green.withOpacity(0.3),
-                              blurRadius: 10.r,
-                              offset: Offset(0, 5.h),
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Login",
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(height: 35.h),
-
-                    Row(
-                      children: [
-                        const Expanded(child: Divider()),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.w),
-                          child: Text(
-                            "Or Login with",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14.sp,
-                            ),
-                          ),
-                        ),
-                        const Expanded(child: Divider()),
-                      ],
-                    ),
-
-                    SizedBox(height: 25.h),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _socialButton("assets/images/fb.png"),
-                        SizedBox(width: 25.w),
-                        _socialButton("assets/images/xx.png"),
-                        SizedBox(width: 25.w),
-                        _socialButton("assets/images/gmail.png"),
-                      ],
-                    ),
-
-                    SizedBox(height: 35.h),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Don't have an account? ",
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 14.sp,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushReplacement(
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => const Registerscreen(),
+                                builder: (_) => const Forgetpass(),
                               ),
                             );
                           },
                           child: Text(
-                            "Register Now",
+                            "Forgot Password?",
                             style: TextStyle(
                               color: const Color(0xff43B343),
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                               fontSize: 14.sp,
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
 
-                    SizedBox(height: 20.h),
-                  ],
+                      SizedBox(height: 30.h),
+
+                      /// Login Button
+                      GestureDetector(
+                        onTap: () {
+                          if (_formKey.currentState!.validate()) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => FirstJobType(),
+                              ),
+                            );
+                          }
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          height: 55.h,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xff56C556),
+                                Color(0xff329232),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(15.r),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.green.withOpacity(0.3),
+                                blurRadius: 10.r,
+                                offset: Offset(0, 5.h),
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Login",
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: 35.h),
+
+                      Row(
+                        children: [
+                          const Expanded(child: Divider()),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                            child: Text(
+                              "Or Login with",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ),
+                          const Expanded(child: Divider()),
+                        ],
+                      ),
+
+                      SizedBox(height: 25.h),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _socialButton("assets/images/fb.png"),
+                          SizedBox(width: 25.w),
+                          _socialButton("assets/images/xx.png"),
+                          SizedBox(width: 25.w),
+                          _socialButton("assets/images/gmail.png"),
+                        ],
+                      ),
+
+                      SizedBox(height: 35.h),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Don't have an account? ",
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const Registerscreen(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              "Register Now",
+                              style: TextStyle(
+                                color: const Color(0xff43B343),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(height: 20.h),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -226,10 +256,12 @@ class _LoginState extends State<Login> {
   }
 
   Widget _buildTextField({
+    required TextEditingController controller,
     required String hint,
     required IconData icon,
     bool isPassword = false,
     Widget? suffixIcon,
+    String? Function(String?)? validator,
   }) {
     return Container(
       decoration: BoxDecoration(
@@ -237,7 +269,9 @@ class _LoginState extends State<Login> {
         borderRadius: BorderRadius.circular(15.r),
       ),
       child: TextFormField(
+        controller: controller,
         obscureText: isPassword ? _isObscure : false,
+        validator: validator,
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: TextStyle(color: Colors.grey, fontSize: 15.sp),

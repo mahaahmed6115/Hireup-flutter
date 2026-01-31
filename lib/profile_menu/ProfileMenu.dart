@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'package:hireup/profile_menu/applications.dart';
+import 'package:hireup/profile_menu/firstaiscreen.dart';
+import 'package:hireup/profile_menu/personal.dart' show PersonalInfoScreen;
+import 'package:hireup/profile_menu/proposl.dart' show ProposalsScreen;
 import 'package:hireup/profile_menu/resume.dart';
+import 'package:hireup/profile_menu/setting.dart';
 
 class Profilemenu extends StatelessWidget {
   const Profilemenu({super.key});
@@ -23,7 +29,6 @@ class Profilemenu extends StatelessWidget {
           clipBehavior: Clip.none,
           alignment: Alignment.topCenter,
           children: [
-            /// المحتوى
             Padding(
               padding: EdgeInsets.fromLTRB(20.w, 70.h, 20.w, 20.h),
               child: SingleChildScrollView(
@@ -38,54 +43,87 @@ class Profilemenu extends StatelessWidget {
                         color: const Color(0xFF1A1D3D),
                       ),
                     ),
-
                     SizedBox(height: 5.h),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           'UX Designer',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 14.sp,
-                          ),
+                          style: TextStyle(color: Colors.grey, fontSize: 14.sp),
                         ),
                         SizedBox(width: 5.w),
-                        Icon(
-                          Icons.verified,
-                          color: themeGreen,
-                          size: 16.sp,
-                        ),
+                        Icon(Icons.verified, color: themeGreen, size: 16.sp),
                       ],
                     ),
-
                     SizedBox(height: 10.h),
-
                     Text(
                       'View Profile',
                       style: TextStyle(
-                        fontSize: 14.sp,
                         color: darkGreen,
                         fontWeight: FontWeight.w600,
                         decoration: TextDecoration.underline,
+                        fontSize: 14.sp,
                       ),
                     ),
-
                     SizedBox(height: 30.h),
 
-                    _buildMenuItem(context, Icons.person_outline, 'Personal Info'),
+                    _buildMenuItem(
+                      context,
+                      Icons.person_outline,
+                      'Personal Info',
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PersonalInfoScreen(),
+                          ),
+                        );
+                      },
+                    ),
                     _buildMenuItem(
                       context,
                       Icons.psychology_outlined,
                       'AI Interview Trainer',
                       isAI: true,
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SplashScreen(),
+                          ),
+                        );
+                      },
                     ),
                     _buildMenuItem(
-                        context, Icons.assignment_outlined, 'Applications'),
+                      context,
+                      Icons.assignment_outlined,
+                      'Applications',
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ApplicationsScreen(),
+                          ),
+                        );
+                      },
+                    ),
                     _buildMenuItem(
-                        context, Icons.description_outlined, 'Proposals'),
-
+                      context,
+                      Icons.description_outlined,
+                      'Proposals',
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ProposalsScreen(),
+                          ),
+                        );
+                      },
+                    ),
                     _buildMenuItem(
                       context,
                       Icons.contact_page_outlined,
@@ -95,30 +133,37 @@ class Profilemenu extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const ResumeUploadScreen(),
+                            builder: (context) => const ResumeUploadScreen(),
                           ),
                         );
                       },
                     ),
-
                     _buildMenuItem(
-                        context, Icons.settings_outlined, 'Settings'),
-
+                      context,
+                      Icons.settings_outlined,
+                      'Settings',
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SettingsScreen(),
+                          ),
+                        );
+                      },
+                    ),
                     _buildMenuItem(
                       context,
                       Icons.logout,
                       'Logout',
                       isLogout: true,
                     ),
-
                     SizedBox(height: 30.h),
-
-                    /// Go Premium
                     Container(
                       width: double.infinity,
                       height: 55.h,
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(
+                        gradient: LinearGradient(
                           colors: [themeGreen, darkGreen],
                         ),
                         borderRadius: BorderRadius.circular(15.r),
@@ -132,14 +177,13 @@ class Profilemenu extends StatelessWidget {
                       ),
                       child: ElevatedButton.icon(
                         onPressed: () {},
-                        icon: Icon(Icons.stars,
-                            color: Colors.white, size: 20.sp),
+                        icon: Icon(Icons.stars, color: Colors.white, size: 20.sp),
                         label: Text(
                           'Go Premium',
                           style: TextStyle(
+                            color: Colors.white,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
@@ -155,13 +199,11 @@ class Profilemenu extends StatelessWidget {
                 ),
               ),
             ),
-
-            /// صورة البروفايل
             Positioned(
               top: -50.h,
               child: Container(
                 width: 100.w,
-                height: 100.w,
+                height: 100.h,
                 decoration: BoxDecoration(
                   color: Colors.grey.shade200,
                   shape: BoxShape.circle,
@@ -179,14 +221,11 @@ class Profilemenu extends StatelessWidget {
                 ),
               ),
             ),
-
-            /// زر الإغلاق
             Positioned(
               top: 15.h,
               right: 15.w,
               child: IconButton(
-                icon: Icon(Icons.close,
-                    color: Colors.grey, size: 22.sp),
+                icon: Icon(Icons.close, color: Colors.grey, size: 20.sp),
                 onPressed: () => Navigator.pop(context),
               ),
             ),
@@ -205,15 +244,12 @@ class Profilemenu extends StatelessWidget {
         VoidCallback? onTap,
       }) {
     return ListTile(
-      contentPadding: EdgeInsets.symmetric(vertical: 4.h),
       leading: Container(
         padding: EdgeInsets.all(8.w),
         decoration: BoxDecoration(
           color: isLogout
               ? Colors.red.withOpacity(0.1)
-              : (isAI
-              ? const Color(0xff35CA60).withOpacity(0.1)
-              : Colors.grey.shade100),
+              : (isAI ? const Color(0xff35CA60).withOpacity(0.1) : Colors.grey.shade100),
           borderRadius: BorderRadius.circular(10.r),
         ),
         child: Icon(
@@ -221,9 +257,7 @@ class Profilemenu extends StatelessWidget {
           size: 20.sp,
           color: isLogout
               ? Colors.red
-              : (isAI
-              ? const Color(0xff35CA60)
-              : Colors.grey.shade700),
+              : (isAI ? const Color(0xff35CA60) : Colors.grey.shade700),
         ),
       ),
       title: Text(
@@ -236,9 +270,13 @@ class Profilemenu extends StatelessWidget {
       ),
       trailing: isLogout
           ? null
-          : Icon(Icons.arrow_forward_ios,
-          size: 14.sp, color: Colors.grey),
-      onTap: onTap,
+          : Icon(Icons.arrow_forward_ios, size: 14.sp, color: Colors.grey),
+      onTap: onTap ??
+              () {
+            if (isAI) {
+              // ممكن تحطي Navigator لشاشة الـ AI هنا
+            }
+          },
     );
   }
 }

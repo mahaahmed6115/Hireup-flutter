@@ -2,14 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hireup/sign_in_screens/login.dart';
 
-class Registerscreen extends StatelessWidget {
+class Registerscreen extends StatefulWidget {
   const Registerscreen({super.key});
+
+  @override
+  State<Registerscreen> createState() => _RegisterscreenState();
+}
+
+class _RegisterscreenState extends State<Registerscreen> {
+  final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  void _register() {
+    if (_formKey.currentState!.validate()) {
+      // كل الحقول صح، هنا ممكن تضيف تسجيل أو إرسال البيانات للسيرفر
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Registration Successful!")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       appBar: AppBar(
         title: Text(
           "Create Account",
@@ -24,115 +55,168 @@ class Registerscreen extends StatelessWidget {
         iconTheme: const IconThemeData(color: Colors.black),
         centerTitle: true,
       ),
-
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 10.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              /// Illustration
-              Image.asset(
-                "assets/images/Mobile login-bro.png",
-                height: 0.25.sh,
-                fit: BoxFit.contain,
-              ),
-
-              SizedBox(height: 20.h),
-
-              _buildRegisterField(
-                hint: "First Name",
-                icon: Icons.person_outline,
-              ),
-              SizedBox(height: 15.h),
-
-              _buildRegisterField(
-                hint: "Last Name",
-                icon: Icons.person_outline,
-              ),
-              SizedBox(height: 15.h),
-
-              _buildRegisterField(
-                hint: "Email Address",
-                icon: Icons.email_outlined,
-              ),
-              SizedBox(height: 15.h),
-
-              _buildRegisterField(
-                hint: "Password",
-                icon: Icons.lock_outline,
-                isPassword: true,
-              ),
-              SizedBox(height: 15.h),
-
-              _buildRegisterField(
-                hint: "Confirm Password",
-                icon: Icons.lock_reset_outlined,
-                isPassword: true,
-              ),
-
-              SizedBox(height: 30.h),
-
-              /// Register Button
-              SizedBox(
-                height: 55.h,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff43B343),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.r),
-                    ),
-                    elevation: 5,
-                    shadowColor: Colors.green.withOpacity(0.3),
-                  ),
-                  onPressed: () {},
-                  child: Text(
-                    "Register",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.sp,
-                    ),
-                  ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                /// Illustration
+                Image.asset(
+                  "assets/images/Mobile login-bro.png",
+                  height: 0.25.sh,
+                  fit: BoxFit.contain,
                 ),
-              ),
 
-              SizedBox(height: 20.h),
+                SizedBox(height: 20.h),
 
-              /// Back to Login
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Already Have Account?",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14.sp,
+                /// First Name
+                _buildRegisterField(
+                  controller: _firstNameController,
+                  hint: "First Name",
+                  icon: Icons.person_outline,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "First name is required";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 15.h),
+
+                /// Last Name
+                _buildRegisterField(
+                  controller: _lastNameController,
+                  hint: "Last Name",
+                  icon: Icons.person_outline,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Last name is required";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 15.h),
+
+                /// Email
+                _buildRegisterField(
+                  controller: _emailController,
+                  hint: "Email Address",
+                  icon: Icons.email_outlined,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Email is required";
+                    }
+                    final emailRegex = RegExp(
+                        r"^[a-zA-Z0-9]+([._%+-]?[a-zA-Z0-9])*@[a-zA-Z0-9]+([.-]?[a-zA-Z0-9])*(\.[a-zA-Z]{2,})+$");
+                    if (!emailRegex.hasMatch(value.trim())) {
+                      return "Enter a valid email";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 15.h),
+
+                /// Password
+                _buildRegisterField(
+                  controller: _passwordController,
+                  hint: "Password",
+                  icon: Icons.lock_outline,
+                  isPassword: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Password is required";
+                    }
+                    if (value.length < 6) {
+                      return "Password must be at least 6 characters";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 15.h),
+
+                /// Confirm Password
+                _buildRegisterField(
+                  controller: _confirmPasswordController,
+                  hint: "Confirm Password",
+                  icon: Icons.lock_reset_outlined,
+                  isPassword: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please confirm password";
+                    }
+                    if (value != _passwordController.text) {
+                      return "Passwords do not match";
+                    }
+                    return null;
+                  },
+                ),
+
+                SizedBox(height: 30.h),
+
+                /// Register Button
+                SizedBox(
+                  height: 55.h,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff43B343),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.r),
+                      ),
+                      elevation: 5,
+                      shadowColor: Colors.green.withOpacity(0.3),
                     ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const Login(),
-                        ),
-                      );
-                    },
+                    onPressed: _register,
                     child: Text(
-                      "Login",
+                      "Register",
                       style: TextStyle(
-                        color: const Color(0xff43B343),
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 14.sp,
+                        fontSize: 18.sp,
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
 
-              SizedBox(height: 20.h),
-            ],
+                SizedBox(height: 20.h),
+
+                /// Back to Login
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Already Have Account?",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const Login(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "Login",
+                        style: TextStyle(
+                          color: const Color(0xff43B343),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 20.h),
+              ],
+            ),
           ),
         ),
       ),
@@ -141,11 +225,14 @@ class Registerscreen extends StatelessWidget {
 
   /// Reusable TextField
   Widget _buildRegisterField({
+    required TextEditingController controller,
     required String hint,
     required IconData icon,
     bool isPassword = false,
+    String? Function(String?)? validator,
   }) {
     return TextFormField(
+      controller: controller,
       obscureText: isPassword,
       decoration: InputDecoration(
         hintText: hint,
@@ -173,6 +260,7 @@ class Registerscreen extends StatelessWidget {
           horizontal: 20.w,
         ),
       ),
+      validator: validator,
     );
   }
 }

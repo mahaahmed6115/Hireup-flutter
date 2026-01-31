@@ -95,9 +95,7 @@ class _ResumeUploadScreenState extends State<ResumeUploadScreen> {
                 color: darkBlue,
               ),
             ),
-
             SizedBox(height: 15.h),
-
             DottedBorder(
               color: themeGreen.withOpacity(0.5),
               strokeWidth: 2,
@@ -106,18 +104,14 @@ class _ResumeUploadScreenState extends State<ResumeUploadScreen> {
               radius: Radius.circular(20.r),
               child: Container(
                 width: double.infinity,
-                padding:
-                EdgeInsets.symmetric(vertical: 40.h, horizontal: 20.w),
+                padding: EdgeInsets.symmetric(
+                    vertical: 40.h, horizontal: 20.w),
                 child: _buildUploadContent(),
               ),
             ),
-
             SizedBox(height: 35.h),
-
             _buildPortfolioGrid(),
-
             SizedBox(height: 50.h),
-
             _buildSaveButton(),
           ],
         ),
@@ -156,8 +150,7 @@ class _ResumeUploadScreenState extends State<ResumeUploadScreen> {
                   value: _progress,
                   strokeWidth: 8.w,
                   backgroundColor: Colors.grey.shade100,
-                  valueColor:
-                  AlwaysStoppedAnimation<Color>(themeGreen),
+                  valueColor: AlwaysStoppedAnimation<Color>(themeGreen),
                 ),
               ),
               Text(
@@ -207,14 +200,12 @@ class _ResumeUploadScreenState extends State<ResumeUploadScreen> {
                       ),
                       Text(
                         _fileSize ?? '',
-                        style:
-                        TextStyle(color: Colors.grey, fontSize: 12.sp),
+                        style: TextStyle(color: Colors.grey, fontSize: 12.sp),
                       ),
                     ],
                   ),
                 ),
-                Icon(Icons.check_circle,
-                    color: themeGreen, size: 22.sp),
+                Icon(Icons.check_circle, color: themeGreen, size: 22.sp),
               ],
             ),
           ),
@@ -230,13 +221,14 @@ class _ResumeUploadScreenState extends State<ResumeUploadScreen> {
       width: double.infinity,
       height: 60.h,
       child: ElevatedButton(
-        onPressed: _currentStatus == UploadStatus.uploaded ? () {} : null,
+        onPressed:
+        _currentStatus == UploadStatus.uploaded ? () {} : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: _currentStatus == UploadStatus.uploaded
               ? darkGreen
               : Colors.grey.shade300,
-          shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.r)),
         ),
         child: Text(
           'Save',

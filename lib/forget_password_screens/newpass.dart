@@ -16,6 +16,10 @@ class _NewpassState extends State<Newpass> {
   final Color _primaryColor = const Color(0xff43B343);
   final Color _titleColor = const Color(0xFF1A1D3D);
 
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,95 +41,116 @@ class _NewpassState extends State<Newpass> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 25.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20.h),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 20.h),
 
-              /// Title
-              Text(
-                "Set a new password",
-                style: TextStyle(
-                  fontSize: 32.sp,
-                  fontWeight: FontWeight.bold,
-                  color: _titleColor,
+                /// Title
+                Text(
+                  "Set a new password",
+                  style: TextStyle(
+                    fontSize: 32.sp,
+                    fontWeight: FontWeight.bold,
+                    color: _titleColor,
+                  ),
                 ),
-              ),
 
-              SizedBox(height: 12.h),
+                SizedBox(height: 12.h),
 
-              /// Description
-              Text(
-                "Create a new password. Ensure it differs from previous ones for security",
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: Colors.grey,
-                  height: 1.5,
+                /// Description
+                Text(
+                  "Create a new password. Ensure it differs from previous ones for security",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: Colors.grey,
+                    height: 1.5,
+                  ),
                 ),
-              ),
 
-              SizedBox(height: 40.h),
+                SizedBox(height: 40.h),
 
-              /// Password
-              _buildLabel("Password"),
-              SizedBox(height: 10.h),
-              _buildPasswordField(
-                hint: "Create new password",
-                isVisible: _isPasswordVisible,
-                onToggle: () =>
-                    setState(() => _isPasswordVisible = !_isPasswordVisible),
-              ),
-
-              SizedBox(height: 25.h),
-
-              /// Confirm Password
-              _buildLabel("Confirm Password"),
-              SizedBox(height: 10.h),
-              _buildPasswordField(
-                hint: "Re-type new password",
-                isVisible: _isConfirmPasswordVisible,
-                onToggle: () => setState(
-                      () => _isConfirmPasswordVisible =
-                  !_isConfirmPasswordVisible,
-                ),
-              ),
-
-              SizedBox(height: 50.h),
-
-              /// Update Button
-              SizedBox(
-                width: double.infinity,
-                height: 55.h,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const Succespas(),
-                      ),
-                    );
+                /// Password
+                _buildLabel("Password"),
+                SizedBox(height: 10.h),
+                _buildPasswordField(
+                  controller: _passwordController,
+                  hint: "Create new password",
+                  isVisible: _isPasswordVisible,
+                  onToggle: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Password cannot be empty";
+                    }
+                    if (value.length < 6) {
+                      return "Password must be at least 6 characters";
+                    }
+                    return null;
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _primaryColor,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.r),
+                ),
+
+                SizedBox(height: 25.h),
+
+                /// Confirm Password
+                _buildLabel("Confirm Password"),
+                SizedBox(height: 10.h),
+                _buildPasswordField(
+                  controller: _confirmPasswordController,
+                  hint: "Re-type new password",
+                  isVisible: _isConfirmPasswordVisible,
+                  onToggle: () => setState(() => _isConfirmPasswordVisible = !_isConfirmPasswordVisible),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Confirm password cannot be empty";
+                    }
+                    if (value != _passwordController.text) {
+                      return "Passwords do not match";
+                    }
+                    return null;
+                  },
+                ),
+
+                SizedBox(height: 50.h),
+
+                /// Update Button
+                SizedBox(
+                  width: double.infinity,
+                  height: 55.h,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const Succespas(),
+                          ),
+                        );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _primaryColor,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.r),
+                      ),
+                      elevation: 5,
+                      shadowColor: _primaryColor.withOpacity(0.3),
                     ),
-                    elevation: 5,
-                    shadowColor: _primaryColor.withOpacity(0.3),
-                  ),
-                  child: Text(
-                    "Update Password",
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
+                    child: Text(
+                      "Update Password",
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
-              ),
 
-              SizedBox(height: 30.h),
-            ],
+                SizedBox(height: 30.h),
+              ],
+            ),
           ),
         ),
       ),
@@ -146,13 +171,17 @@ class _NewpassState extends State<Newpass> {
 
   /// Password Field Widget
   Widget _buildPasswordField({
+    required TextEditingController controller,
     required String hint,
     required bool isVisible,
     required VoidCallback onToggle,
+    String? Function(String?)? validator,
   }) {
     return TextFormField(
+      controller: controller,
       obscureText: !isVisible,
       style: TextStyle(fontSize: 16.sp),
+      validator: validator,
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: TextStyle(
