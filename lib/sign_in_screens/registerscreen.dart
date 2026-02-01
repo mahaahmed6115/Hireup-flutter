@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hireup/sign_in_screens/login.dart';
 
+import '../service/AuthServiceRegister.dart';
+
+
+
 class Registerscreen extends StatefulWidget {
   const Registerscreen({super.key});
 
@@ -28,12 +32,29 @@ class _RegisterscreenState extends State<Registerscreen> {
     super.dispose();
   }
 
-  void _register() {
+  Future<void> _register() async {
     if (_formKey.currentState!.validate()) {
-      // كل الحقول صح، هنا ممكن تضيف تسجيل أو إرسال البيانات للسيرفر
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Registration Successful!")),
-      );
+      if (_formKey.currentState!.validate()) {
+        final success = await AuthServiceRegister.register(
+          firstName: _firstNameController.text.trim(),
+          lastName: _lastNameController.text.trim(),
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
+        if (success) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Registration Successful!")),
+          );
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const Login()),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Registration Failed!")),
+          );
+        }
+      }
     }
   }
 
@@ -145,16 +166,31 @@ class _RegisterscreenState extends State<Registerscreen> {
                   isPassword: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "Please confirm password";
+                      return "Password is required";
                     }
-                    if (value != _passwordController.text) {
-                      return "Passwords do not match";
+
+                    if (value.length < 8) {
+                      return "Password must be at least 8 characters";
                     }
+
+                    if (!RegExp(r'[a-z]').hasMatch(value)) {
+                      return "Password must contain a lowercase letter";
+                    }
+
+                    if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                      return "Password must contain an uppercase letter";
+                    }
+
+                    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+                      return "Password must contain a special character";
+                    }
+
                     return null;
-                  },
+                  }
                 ),
 
-                SizedBox(height: 30.h),
+
+                  SizedBox(height: 30.h),
 
                 /// Register Button
                 SizedBox(

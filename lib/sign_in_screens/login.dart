@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hireup/forget_password_screens/Forgetpass.dart';
 import 'package:hireup/firstjoptype.dart';
+import 'package:hireup/service/AuthServiceLogin.dart';
 import 'package:hireup/sign_in_screens/registerscreen.dart';
 
 class Login extends StatefulWidget {
@@ -136,14 +137,35 @@ class _LoginState extends State<Login> {
 
                       /// Login Button
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           if (_formKey.currentState!.validate()) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => FirstJobType(),
-                              ),
+                            // Show loading indicator
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (_) => Center(child: CircularProgressIndicator()),
                             );
+
+                            final result = await AuthServiceLogin.login(
+                              email: _emailController.text.trim(),
+                              password: _passwordController.text.trim(),
+                            );
+
+                            // Close loading
+                            Navigator.pop(context);
+
+                            if (result["success"]) {
+                              // نجاح تسجيل الدخول
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (_) => FirstJobType()),
+                              );
+                            } else {
+                              // خطأ
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(result["message"])),
+                              );
+                            }
                           }
                         },
                         child: Container(
