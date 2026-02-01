@@ -5,6 +5,7 @@ import 'package:hireup/jop_details/jopdetails.dart';
 import 'package:hireup/message_screens/messagescreen.dart';
 import 'package:hireup/profile_menu/ProfileMenu.dart';
 import 'package:hireup/saved.dart';
+import 'ai/ElevenLabsWebView.dart'; // ✅ الشات بوت
 
 List<Map<String, dynamic>> savedJobs = [];
 
@@ -44,7 +45,9 @@ class _HomepageState extends State<Homepage> {
         duration: const Duration(milliseconds: 800),
         behavior: SnackBarBehavior.floating,
         backgroundColor: const Color(0xFF1A1D3D),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.r),
+        ),
       ),
     );
   }
@@ -61,6 +64,45 @@ class _HomepageState extends State<Homepage> {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9F9),
       body: _screens[_currentIndex],
+
+      floatingActionButton: Container(
+        width: 62.w,
+        height: 62.w,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: const LinearGradient(
+            colors: [
+              Color(0xFF5E8D5E),
+              Color(0xFF3F6B3F),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 14,
+              offset: Offset(0, 6),
+            ),
+          ],
+        ),
+        child: IconButton(
+          icon: const Icon(
+            Icons.smart_toy_rounded,
+            color: Colors.white,
+            size: 28,
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ElevenLabsWebView(),
+              ),
+            );
+          },
+        ),
+      ),
+
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
@@ -73,7 +115,10 @@ class _HomepageState extends State<Homepage> {
           BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.mail_outline), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.bookmark_border), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications_none_outlined), label: ''),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications_none_outlined),
+            label: '',
+          ),
         ],
       ),
     );
